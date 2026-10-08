@@ -185,6 +185,9 @@
     box-shadow: 0 12px 24px -8px rgba(99,102,241,.7);
   }
   .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled {
+    opacity: .6; cursor: not-allowed; transform: none;
+  }
 
   .error {
     color: var(--danger); font-size: .85rem; text-align: center;
@@ -255,9 +258,7 @@
 
   .user-info { display: flex; align-items: center; gap: .75rem; position: relative; }
 
-  .account-switcher {
-    position: relative;
-  }
+  .account-switcher { position: relative; }
 
   .account-btn {
     display: flex; align-items: center; gap: .55rem;
@@ -277,9 +278,7 @@
     border-color: #c7d2fe;
     box-shadow: var(--shadow-sm);
   }
-  .account-btn .user-avatar {
-    width: 28px; height: 28px; font-size: .8rem;
-  }
+  .account-btn .user-avatar { width: 28px; height: 28px; font-size: .8rem; }
   .account-btn .email-label {
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
@@ -299,7 +298,6 @@
     flex-shrink: 0;
   }
 
-  /* Menu déroulant des comptes */
   .account-menu {
     position: absolute;
     top: calc(100% + 8px);
@@ -339,9 +337,7 @@
     position: relative;
   }
   .account-item:hover { background: var(--surface-2); }
-  .account-item.current {
-    background: var(--primary-soft);
-  }
+  .account-item.current { background: var(--primary-soft); }
   .account-item.current::after {
     content: "✓";
     position: absolute; right: .75rem;
@@ -357,10 +353,7 @@
     text-transform: uppercase;
     flex-shrink: 0;
   }
-  .account-item .acc-info {
-    flex: 1; min-width: 0;
-    text-align: left;
-  }
+  .account-item .acc-info { flex: 1; min-width: 0; text-align: left; }
   .account-item .acc-email {
     font-size: .85rem; font-weight: 600;
     color: var(--text);
@@ -384,10 +377,7 @@
     font-family: inherit;
   }
   .account-item:hover .acc-remove { opacity: 1; }
-  .account-item .acc-remove:hover {
-    background: #fef2f2;
-    color: var(--danger);
-  }
+  .account-item .acc-remove:hover { background: #fef2f2; color: var(--danger); }
   .account-item.current .acc-remove { margin-right: 2.2rem; }
 
   .account-menu-divider {
@@ -748,6 +738,110 @@
     display: block; margin-bottom: .25rem;
   }
 
+  /* ================== LOADER ================== */
+  .loader-screen {
+    position: fixed; inset: 0;
+    background: rgba(15,23,42,0.65);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.75rem;
+    z-index: 9999;
+    animation: fadeIn .25s ease;
+  }
+  .loader-screen.active { display: flex; }
+
+  .loader-logo {
+    width: 72px; height: 72px;
+    border-radius: 20px;
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    box-shadow: 0 20px 40px -12px rgba(99,102,241,.8);
+    font-size: 36px;
+    animation: pulseLogo 1.6s ease-in-out infinite;
+  }
+
+  @keyframes pulseLogo {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+  }
+
+  .loader-spinner {
+    position: relative;
+    width: 60px; height: 60px;
+  }
+
+  .loader-spinner::before,
+  .loader-spinner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #a5b4fc;
+    animation: spin 1.1s linear infinite;
+  }
+  .loader-spinner::after {
+    inset: 8px;
+    border-top-color: #c4b5fd;
+    animation-duration: 1.6s;
+    animation-direction: reverse;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loader-text {
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    min-height: 1.4em;
+    text-align: center;
+    padding: 0 1.5rem;
+    transition: opacity .2s ease;
+  }
+
+  .loader-text .dots::after {
+    content: "";
+    animation: dots 1.4s steps(4, end) infinite;
+  }
+
+  @keyframes dots {
+    0%   { content: ""; }
+    25%  { content: "."; }
+    50%  { content: ".."; }
+    75%  { content: "..."; }
+    100% { content: ""; }
+  }
+
+  .loader-bar {
+    width: 180px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.15);
+    overflow: hidden;
+    position: relative;
+  }
+  .loader-bar::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 40%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, #a5b4fc, transparent);
+    animation: slide 1.4s ease-in-out infinite;
+  }
+  @keyframes slide {
+    0%   { left: -40%; }
+    100% { left: 100%; }
+  }
+
   @media (max-width: 720px) {
     .sidebar { width: 68px; padding: 1rem .5rem; }
     .sidebar li span.label { display: none; }
@@ -971,6 +1065,16 @@
   </div>
 </div>
 
+<!-- ÉCRAN DE CHARGEMENT -->
+<div class="loader-screen" id="loader">
+  <div class="loader-logo">📧</div>
+  <div class="loader-spinner"></div>
+  <div class="loader-text" id="loader-text">
+    <span id="loader-message">Connexion</span><span class="dots"></span>
+  </div>
+  <div class="loader-bar"></div>
+</div>
+
 <script>
 "use strict";
 
@@ -1074,11 +1178,40 @@ const composeToWrap  = document.getElementById("compose-to-wrap");
 const composeSubjectInput = document.getElementById("compose-subject");
 const composeBodyInput    = document.getElementById("compose-body");
 
-// Éléments du switcher
 const accountBtn   = document.getElementById("account-btn");
 const accountMenu  = document.getElementById("account-menu");
 const accountList  = document.getElementById("account-list");
 const addAccountBtn= document.getElementById("add-account-btn");
+
+const loaderScreen  = document.getElementById("loader");
+const loaderMessage = document.getElementById("loader-message");
+
+// ====================== LOADER ======================
+function showLoader(callback, messages) {
+  const steps = (messages && messages.length) ? messages : ["Chargement", "Veuillez patienter"];
+  let i = 0;
+
+  loaderMessage.textContent = steps[0];
+  loaderMessage.style.opacity = "1";
+  loaderScreen.classList.add("active");
+
+  const interval = setInterval(() => {
+    i++;
+    if (i < steps.length) {
+      loaderMessage.style.opacity = "0";
+      setTimeout(() => {
+        loaderMessage.textContent = steps[i];
+        loaderMessage.style.opacity = "1";
+      }, 120);
+    }
+  }, 420);
+
+  setTimeout(() => {
+    clearInterval(interval);
+    loaderScreen.classList.remove("active");
+    if (typeof callback === "function") callback();
+  }, 1300);
+}
 
 // ====================== NAVIGATION ======================
 function showAuth() {
@@ -1179,7 +1312,8 @@ registerForm.addEventListener("submit", (e) => {
   registerForm.reset();
   registerEmailWrap.classList.remove("valid", "invalid");
   passwordRulesEl.querySelectorAll("li").forEach(li => li.classList.remove("ok", "ko"));
-  showMail();
+
+  showLoader(() => showMail(), ["Création du compte", "Configuration de la boîte", "C'est prêt !"]);
 });
 
 // ====================== CONNEXION ======================
@@ -1213,10 +1347,11 @@ loginForm.addEventListener("submit", (e) => {
   currentFolder = "inbox";
   document.querySelectorAll(".sidebar li").forEach(x => x.classList.remove("active"));
   document.querySelector('.sidebar li[data-folder="inbox"]').classList.add("active");
-  showMail();
+
+  showLoader(() => showMail(), ["Connexion", "Vérification du mot de passe", "Chargement des messages"]);
 });
 
-// ====================== SWITCHER DE COMPTES (fix bug clic) ======================
+// ====================== SWITCHER DE COMPTES ======================
 function openAccountMenu() {
   renderAccountList();
   accountMenu.classList.add("open");
@@ -1236,18 +1371,15 @@ function toggleAccountMenu() {
   }
 }
 
-// Clic sur le bouton → toggle (stopPropagation pour ne pas fermer tout de suite)
 accountBtn.addEventListener("click", (e) => {
   e.stopPropagation();
   toggleAccountMenu();
 });
 
-// Clic DANS le menu → stopPropagation pour ne PAS déclencher le "clic ailleurs"
 accountMenu.addEventListener("click", (e) => {
   e.stopPropagation();
 });
 
-// Clic AILLEURS sur la page → ferme le menu
 document.addEventListener("click", () => {
   if (accountMenu.classList.contains("open")) {
     closeAccountMenu();
@@ -1309,15 +1441,18 @@ function renderAccountList() {
 
 // ====================== SWITCHER VERS UN COMPTE ======================
 function switchToAccount(user) {
-  DB.setSession({ id: user.id, name: user.name, email: user.email });
   closeAccountMenu();
+  DB.setSession({ id: user.id, name: user.name, email: user.email });
 
   currentFolder = "inbox";
   currentMailId = null;
   document.querySelectorAll(".sidebar li").forEach(x => x.classList.remove("active"));
   document.querySelector('.sidebar li[data-folder="inbox"]').classList.add("active");
 
-  showMail();
+  showLoader(
+    () => showMail(),
+    [`Changement vers ${user.email}`, "Chargement des messages"]
+  );
 }
 
 // ====================== SE DÉCONNECTER ======================

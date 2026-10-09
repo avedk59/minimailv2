@@ -15,6 +15,117 @@
     flex-direction: column;
     overflow: hidden;
   }
+
+  /* ============ AUTH SCREEN ============ */
+  .auth-screen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0f1220 0%, #1e1b4b 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+  }
+  .auth-card {
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 24px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    animation: pop .4s cubic-bezier(.16,1,.3,1);
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: translateY(20px) scale(.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .auth-logo {
+    width: 60px; height: 60px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    display: grid; place-items: center;
+    margin: 0 auto 20px;
+    font-size: 30px;
+    box-shadow: 0 8px 24px rgba(99,102,241,.4);
+  }
+  .auth-title {
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .auth-subtitle {
+    font-size: 13.5px;
+    text-align: center;
+    color: rgba(255,255,255,.6);
+    margin-bottom: 28px;
+  }
+  .auth-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(0,0,0,.2);
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+  .auth-tab {
+    flex: 1;
+    padding: 9px;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,.6);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .2s;
+  }
+  .auth-tab.active {
+    background: rgba(255,255,255,.1);
+    color: #fff;
+  }
+  .auth-form { display: none; flex-direction: column; gap: 14px; }
+  .auth-form.active { display: flex; }
+  .auth-form input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255,255,255,.06);
+    border: 1.5px solid rgba(255,255,255,.15);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: all .2s;
+  }
+  .auth-form input:focus { border-color: #6366f1; background: rgba(255,255,255,.1); }
+  .auth-btn {
+    padding: 14px;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all .2s;
+    margin-top: 4px;
+  }
+  .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(99,102,241,.4); }
+  .auth-error {
+    color: #ef4444;
+    font-size: 12.5px;
+    text-align: center;
+    min-height: 16px;
+    font-weight: 500;
+  }
+
+  /* ============ CHAT PRINCIPAL ============ */
   header {
     background: rgba(255,255,255,.06);
     padding: 16px 24px;
@@ -32,40 +143,48 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  .admin-badge-header {
-    font-size: 10px;
-    padding: 3px 10px;
-    background: linear-gradient(135deg, #ef4444, #f59e0b);
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    padding: 6px 12px 6px 6px;
+    background: rgba(255,255,255,.06);
     border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .user-avatar-small {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .admin-badge {
+    font-size: 9px;
+    padding: 2px 7px;
+    background: linear-gradient(135deg, #ef4444, #f59e0b);
+    border-radius: 4px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: .05em;
-    display: none;
   }
-  .admin-badge-header.on { display: inline-block; }
-  header .status {
-    margin-left: auto;
-    font-size: 12px;
-    padding: 4px 12px;
-    background: rgba(16,185,129,.15);
-    color: #10b981;
-    border-radius: 999px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  .logout-btn {
+    padding: 4px 10px;
+    background: rgba(239,68,68,.15);
+    color: #ef4444;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    margin-left: 4px;
   }
-  header .status.offline { background: rgba(239,68,68,.15); color: #ef4444; }
-  header .status .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    animation: blink 1.5s ease-in-out infinite;
-  }
-  @keyframes blink {
-    0%,100% { opacity: 1; }
-    50%     { opacity: .3; }
-  }
+  .logout-btn:hover { background: rgba(239,68,68,.25); }
+
   #messages {
     flex: 1;
     overflow-y: auto;
@@ -80,13 +199,13 @@
     border-radius: 14px;
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.1);
-    animation: pop .25s cubic-bezier(.16,1,.3,1);
+    animation: msgIn .25s cubic-bezier(.16,1,.3,1);
     position: relative;
     display: flex;
     gap: 10px;
     align-items: flex-start;
   }
-  @keyframes pop {
+  @keyframes msgIn {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
   }
@@ -96,25 +215,23 @@
     background: linear-gradient(135deg, #6366f1, #a855f7);
     border: none;
   }
-  .msg.admin {
+  .msg.admin-msg {
     background: linear-gradient(135deg, #7c2d12, #b91c1c);
-    border: 1px solid #f59e0b;
+    border: 1px solid #fbbf24;
     box-shadow: 0 0 20px rgba(245,158,11,.25);
   }
-  .msg.admin.mine { background: linear-gradient(135deg, #b91c1c, #7c2d12); }
-  .msg.admin .author { color: #fbbf24; }
+  .msg.admin-msg.mine { background: linear-gradient(135deg, #b91c1c, #7c2d12); }
   .msg-avatar {
     width: 32px; height: 32px;
     border-radius: 50%;
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     font-weight: 800;
     font-size: 13px;
     flex-shrink: 0;
     color: #fff;
     text-transform: uppercase;
   }
-  .msg.admin .msg-avatar { box-shadow: 0 0 0 2px #fbbf24; }
+  .msg.admin-msg .msg-avatar { box-shadow: 0 0 0 2px #fbbf24; }
   .msg-body { min-width: 0; }
   .msg .author {
     font-size: 11px;
@@ -134,7 +251,6 @@
     color: #7c2d12;
     border-radius: 4px;
     font-weight: 800;
-    letter-spacing: .05em;
   }
   .msg .content { font-size: 14px; line-height: 1.5; word-break: break-word; }
   .msg .time {
@@ -145,8 +261,7 @@
   }
   .msg-delete {
     position: absolute;
-    top: 6px;
-    right: 8px;
+    top: 6px; right: 8px;
     background: rgba(0,0,0,.4);
     color: #fff;
     border: none;
@@ -156,8 +271,7 @@
     cursor: pointer;
     opacity: 0;
     transition: opacity .2s;
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     font-family: inherit;
   }
   .msg:hover .msg-delete { opacity: 1; }
@@ -171,18 +285,6 @@
     border-top: 1px solid rgba(255,255,255,.1);
     backdrop-filter: blur(20px);
     align-items: center;
-    flex-wrap: wrap;
-  }
-  #pseudo {
-    width: 120px;
-    padding: 12px 14px;
-    background: rgba(255,255,255,.08);
-    border: 1.5px solid rgba(255,255,255,.15);
-    border-radius: 12px;
-    color: #fff;
-    font-size: 14px;
-    outline: none;
-    font-family: inherit;
   }
   #message {
     flex: 1;
@@ -192,13 +294,11 @@
     border-radius: 12px;
     color: #fff;
     font-size: 14px;
-    outline: none;
     font-family: inherit;
-    min-width: 200px;
+    outline: none;
   }
-  #pseudo:focus, #message:focus { border-color: #6366f1; }
-  #pseudo.admin-mode { border-color: #fbbf24; color: #fbbf24; font-weight: 700; }
-
+  #message:focus { border-color: #6366f1; }
+  #message:disabled { opacity: .5; cursor: not-allowed; }
   .emoji-btn {
     width: 44px; height: 44px;
     border-radius: 12px;
@@ -211,11 +311,9 @@
     transition: all .2s;
   }
   .emoji-btn:hover { background: rgba(255,255,255,.15); }
-
   .emoji-picker {
     position: absolute;
-    bottom: 90px;
-    right: 24px;
+    bottom: 90px; right: 24px;
     background: #1e1b4b;
     border: 1px solid rgba(255,255,255,.15);
     border-radius: 14px;
@@ -239,7 +337,6 @@
     transition: background .15s;
   }
   .emoji-picker span:hover { background: rgba(255,255,255,.1); }
-
   button[type="submit"] {
     padding: 0 24px;
     height: 44px;
@@ -249,14 +346,13 @@
     border-radius: 12px;
     font-weight: 700;
     font-size: 14px;
-    cursor: pointer;
     font-family: inherit;
+    cursor: pointer;
     transition: transform .15s;
     flex-shrink: 0;
   }
-  button[type="submit"]:hover { transform: translateY(-2px); }
-  button[type="submit"]:active { transform: translateY(0); }
-
+  button[type="submit"]:hover:not(:disabled) { transform: translateY(-2px); }
+  button[type="submit"]:disabled { opacity: .5; cursor: not-allowed; }
   .empty {
     text-align: center;
     color: rgba(255,255,255,.4);
@@ -264,11 +360,9 @@
     font-size: 14px;
   }
 
-  /* Notification admin */
   .admin-popup {
     position: fixed;
-    bottom: 100px;
-    right: 24px;
+    bottom: 100px; right: 24px;
     background: linear-gradient(135deg, #7c2d12, #b91c1c);
     border: 1px solid #fbbf24;
     padding: 12px 18px;
@@ -285,55 +379,81 @@
 </head>
 <body>
 
-<header>
-  <h1>💬 Chat public — MiniMail</h1>
-  <span class="admin-badge-header" id="adminBadgeHeader">🛡️ Admin</span>
-  <span class="status" id="status">
-    <span class="dot"></span>
-    <span id="statusText">Connexion...</span>
-  </span>
-</header>
+<!-- ============ AUTH SCREEN ============ -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-logo">💬</div>
+    <h1 class="auth-title">Chat MiniMail</h1>
+    <p class="auth-subtitle">Connecte-toi pour discuter</p>
 
-<div id="messages">
-  <div class="empty">Chargement des messages...</div>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" id="tabLogin">Connexion</button>
+      <button type="button" class="auth-tab" id="tabRegister">Inscription</button>
+    </div>
+
+    <form class="auth-form active" id="loginForm">
+      <input type="text" id="loginPseudo" placeholder="Pseudo" maxlength="20" required />
+      <input type="password" id="loginPassword" placeholder="Mot de passe" required />
+      <p class="auth-error" id="loginError"></p>
+      <button type="submit" class="auth-btn">Se connecter</button>
+    </form>
+
+    <form class="auth-form" id="registerForm">
+      <input type="text" id="regPseudo" placeholder="Pseudo" maxlength="20" required />
+      <input type="password" id="regPassword" placeholder="Mot de passe (min 4)" required />
+      <input type="password" id="regPassword2" placeholder="Confirmer le mot de passe" required />
+      <p class="auth-error" id="regError"></p>
+      <button type="submit" class="auth-btn">Créer mon compte</button>
+    </form>
+  </div>
 </div>
 
-<form id="form">
-  <input type="text" id="pseudo" placeholder="Pseudo" maxlength="20" required />
-  <button type="button" class="emoji-btn" id="emojiBtn" title="Émojis">😀</button>
-  <input type="text" id="message" placeholder="Écris un message..." maxlength="500" required autocomplete="off" />
-  <button type="submit">Envoyer</button>
-</form>
+<!-- ============ CHAT ============ -->
+<div id="chatContainer" style="display:none;flex-direction:column;height:100vh;">
+  <header>
+    <h1>💬 Chat public — MiniMail</h1>
+    <div class="user-info">
+      <div class="user-avatar-small" id="myAvatar">?</div>
+      <span id="myPseudo">—</span>
+      <span class="admin-badge" id="adminBadge" style="display:none;">🛡️ Admin</span>
+      <button type="button" class="logout-btn" id="logoutBtn">Déconnexion</button>
+    </div>
+  </header>
+
+  <div id="messages">
+    <div class="empty">Chargement des messages...</div>
+  </div>
+
+  <form id="form">
+    <button type="button" class="emoji-btn" id="emojiBtn" title="Émojis">😀</button>
+    <input type="text" id="message" placeholder="Écris un message..." maxlength="500" required autocomplete="off" />
+    <button type="submit">Envoyer</button>
+  </form>
+</div>
 
 <div class="emoji-picker" id="emojiPicker"></div>
 <div class="admin-popup" id="adminPopup"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// ==================== CONFIG ====================
 const SUPABASE_URL = "https://qqxucvjlwtrenfrrlvgh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_yQXdPxGshaxHofMKgirgYg_omFshgvx";
 
-// ===== COMPTE ADMIN SECRET =====
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "MiniMail@2026!Admin";
-
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const messagesEl = document.getElementById("messages");
-const statusEl = document.getElementById("status");
-const statusText = document.getElementById("statusText");
-const form = document.getElementById("form");
-const pseudoInput = document.getElementById("pseudo");
-const messageInput = document.getElementById("message");
-const emojiBtn = document.getElementById("emojiBtn");
-const emojiPicker = document.getElementById("emojiPicker");
-const adminBadgeHeader = document.getElementById("adminBadgeHeader");
-const adminPopup = document.getElementById("adminPopup");
+// ==================== HELPERS ====================
+function hashPassword(pwd) {
+  // Hash simple pour ne pas stocker en clair
+  return btoa(unescape(encodeURIComponent("mm#" + pwd)));
+}
 
-// Est-ce qu'on est admin ?
-let IS_ADMIN = false;
+function escapeHtml(s) {
+  const d = document.createElement("div");
+  d.textContent = String(s ?? "");
+  return d.innerHTML;
+}
 
-// Couleurs avatars
 const COLORS = ["#6366f1", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981", "#06b6d4", "#ef4444", "#84cc16", "#f97316", "#a855f7"];
 function colorFor(name) {
   let hash = 0;
@@ -341,14 +461,133 @@ function colorFor(name) {
   return COLORS[Math.abs(hash) % COLORS.length];
 }
 
-// Emojis
+// ==================== ÉTAT ====================
+let CURRENT_USER = null;
+
+// ==================== DOM ====================
+const authScreen = document.getElementById("authScreen");
+const chatContainer = document.getElementById("chatContainer");
+const tabLogin = document.getElementById("tabLogin");
+const tabRegister = document.getElementById("tabRegister");
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+const loginError = document.getElementById("loginError");
+const regError = document.getElementById("regError");
+const myAvatar = document.getElementById("myAvatar");
+const myPseudoEl = document.getElementById("myPseudo");
+const adminBadge = document.getElementById("adminBadge");
+const logoutBtn = document.getElementById("logoutBtn");
+const messagesEl = document.getElementById("messages");
+const form = document.getElementById("form");
+const messageInput = document.getElementById("message");
+const emojiBtn = document.getElementById("emojiBtn");
+const emojiPicker = document.getElementById("emojiPicker");
+const adminPopup = document.getElementById("adminPopup");
+
+// ==================== AUTH ====================
+tabLogin.addEventListener("click", () => {
+  tabLogin.classList.add("active");
+  tabRegister.classList.remove("active");
+  loginForm.classList.add("active");
+  registerForm.classList.remove("active");
+});
+tabRegister.addEventListener("click", () => {
+  tabRegister.classList.add("active");
+  tabLogin.classList.remove("active");
+  registerForm.classList.add("active");
+  loginForm.classList.remove("active");
+});
+
+// -------- INSCRIPTION --------
+registerForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  regError.textContent = "";
+
+  const pseudo = document.getElementById("regPseudo").value.trim();
+  const pwd = document.getElementById("regPassword").value;
+  const pwd2 = document.getElementById("regPassword2").value;
+
+  if (!pseudo || pseudo.length < 2) { regError.textContent = "Pseudo trop court (min 2)."; return; }
+  if (!/^[a-zA-Z0-9_.-]+$/.test(pseudo)) { regError.textContent = "Pseudo : lettres, chiffres, . _ -"; return; }
+  if (pseudo.toLowerCase() === "admin") { regError.textContent = "Ce pseudo est réservé."; return; }
+  if (pwd.length < 4) { regError.textContent = "Mot de passe trop court (min 4)."; return; }
+  if (pwd !== pwd2) { regError.textContent = "Les mots de passe ne correspondent pas."; return; }
+
+  // Vérifier si le pseudo existe
+  const { data: existing } = await sb.from("chat_users").select("id").eq("pseudo", pseudo).maybeSingle();
+  if (existing) { regError.textContent = "Ce pseudo est déjà pris."; return; }
+
+  // Créer le compte
+  const { data, error } = await sb.from("chat_users").insert({
+    pseudo,
+    password_hash: hashPassword(pwd),
+    is_admin: false,
+  }).select().single();
+
+  if (error) { regError.textContent = "Erreur : " + error.message; return; }
+
+  // Connecter directement
+  sessionStorage.setItem("chat_user", JSON.stringify(data));
+  CURRENT_USER = data;
+  enterChat();
+});
+
+// -------- CONNEXION --------
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  loginError.textContent = "";
+
+  const pseudo = document.getElementById("loginPseudo").value.trim();
+  const pwd = document.getElementById("loginPassword").value;
+
+  if (!pseudo || !pwd) { loginError.textContent = "Remplis tous les champs."; return; }
+
+  const { data, error } = await sb.from("chat_users")
+    .select("*")
+    .eq("pseudo", pseudo)
+    .maybeSingle();
+
+  if (error || !data) { loginError.textContent = "Pseudo ou mot de passe incorrect."; return; }
+  if (data.password_hash !== hashPassword(pwd)) { loginError.textContent = "Pseudo ou mot de passe incorrect."; return; }
+  if (data.is_banned) { loginError.textContent = "Tu es banni du chat."; return; }
+
+  sessionStorage.setItem("chat_user", JSON.stringify(data));
+  CURRENT_USER = data;
+  enterChat();
+});
+
+// -------- DÉCONNEXION --------
+logoutBtn.addEventListener("click", () => {
+  sessionStorage.removeItem("chat_user");
+  CURRENT_USER = null;
+  chatContainer.style.display = "none";
+  authScreen.style.display = "flex";
+  loginForm.reset();
+  registerForm.reset();
+});
+
+// ==================== ENTRÉE CHAT ====================
+function enterChat() {
+  authScreen.style.display = "none";
+  chatContainer.style.display = "flex";
+
+  myAvatar.textContent = CURRENT_USER.pseudo.charAt(0).toUpperCase();
+  myAvatar.style.background = colorFor(CURRENT_USER.pseudo);
+  myPseudoEl.textContent = CURRENT_USER.pseudo;
+  adminBadge.style.display = CURRENT_USER.is_admin ? "inline-block" : "none";
+
+  loadMessages();
+  messageInput.focus();
+}
+
+// ==================== EMOJIS ====================
 const EMOJIS = ["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","🤨","😐","😑","😶","😏","😒","🙄","😬","🤥","😌","😔","😪","🤤","😴","😷","🤒","🤕","🤢","🤮","🥵","🥶","😵","🤯","🤠","🥳","😎","🤓","🧐","😕","😟","🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣","😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","💩","🤡","👹","👻","👽","🤖","🎃","❤️","🧡","💛","💚","💙","💜","🖤","🤍","💔","❣️","💕","💞","💓","💗","💖","💘","💝","👍","👎","👌","✌️","🤞","🤟","🤘","🤙","👈","👉","👆","👇","☝️","✋","🤚","🖐️","🖖","👋","🤝","🙏","💪","🦾","✍️","💅","👏","🙌","👐","🤲","🔥","✨","⭐","🌟","💫","⚡","☄️","💥","🎉","🎊","🎈","🎁","🏆","🥇","🥈","🥉"];
 
-EMOJIS.forEach(e => {
+EMOJIS.forEach(em => {
   const s = document.createElement("span");
-  s.textContent = e;
+  s.textContent = em;
   s.addEventListener("click", () => {
-    messageInput.value += e;
+    messageInput.value += em;
     messageInput.focus();
   });
   emojiPicker.appendChild(s);
@@ -364,45 +603,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Pseudo sauvegardé
-pseudoInput.value = localStorage.getItem("chat_pseudo") || "";
-
-// ============ DÉTECTION ADMIN ============
-pseudoInput.addEventListener("input", () => {
-  checkAdmin();
-});
-
-function checkAdmin() {
-  const p = pseudoInput.value.trim();
-  if (p === ADMIN_USERNAME) {
-    pseudoInput.classList.add("admin-mode");
-    // On affiche le badge admin seulement après avoir cliqué sur "Envoyer" (vérif mot de passe)
-  } else {
-    pseudoInput.classList.remove("admin-mode");
-    IS_ADMIN = false;
-    adminBadgeHeader.classList.remove("on");
-  }
-}
-
-// Demander le mot de passe admin une fois
-function askAdminPassword() {
-  return new Promise((resolve) => {
-    if (sessionStorage.getItem("chat_admin_auth") === "yes") {
-      resolve(true);
-      return;
-    }
-    const pwd = prompt("🔐 Mot de passe administrateur :");
-    if (pwd === ADMIN_PASSWORD) {
-      sessionStorage.setItem("chat_admin_auth", "yes");
-      resolve(true);
-    } else {
-      if (pwd !== null) alert("❌ Mot de passe incorrect");
-      resolve(false);
-    }
-  });
-}
-
-// ============ CHARGER LES MESSAGES ============
+// ==================== CHARGER MESSAGES ====================
 async function loadMessages() {
   const { data, error } = await sb
     .from("messages")
@@ -410,12 +611,7 @@ async function loadMessages() {
     .order("created_at", { ascending: true })
     .limit(200);
 
-  if (error) {
-    console.error("Erreur:", error);
-    statusText.textContent = "Erreur";
-    statusEl.classList.add("offline");
-    return;
-  }
+  if (error) { console.error(error); return; }
 
   messagesEl.innerHTML = "";
   if (data.length === 0) {
@@ -424,29 +620,26 @@ async function loadMessages() {
     data.forEach(renderMessage);
   }
   scrollBottom();
-  statusText.textContent = "Connecté ✓";
-  statusEl.classList.remove("offline");
 }
 
-// ============ AFFICHER UN MESSAGE ============
+// ==================== RENDER MESSAGE ====================
 function renderMessage(msg) {
   const div = document.createElement("div");
   div.className = "msg";
   div.dataset.id = msg.id;
 
-  const myPseudo = (localStorage.getItem("chat_pseudo") || "").toLowerCase();
-  const isMine = msg.auteur.toLowerCase() === myPseudo;
-  const isAdminMsg = msg.auteur.toLowerCase() === ADMIN_USERNAME;
+  const isMine = CURRENT_USER && msg.auteur.toLowerCase() === CURRENT_USER.pseudo.toLowerCase();
+  const isAdminMsg = (msg.auteur || "").toLowerCase() === "admin";
 
   if (isMine) div.classList.add("mine");
-  if (isAdminMsg) div.classList.add("admin");
+  if (isAdminMsg) div.classList.add("admin-msg");
 
   const time = new Date(msg.created_at).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
   const color = isAdminMsg ? "#fbbf24" : colorFor(msg.auteur);
-  const canDelete = isMine || IS_ADMIN;
+  const canDelete = isMine || (CURRENT_USER && CURRENT_USER.is_admin);
 
   div.innerHTML = `
-    <div class="msg-avatar" style="background:${color}">${escapeHtml(msg.auteur.charAt(0).toUpperCase())}</div>
+    <div class="msg-avatar" style="background:${color}">${escapeHtml((msg.auteur || "?").charAt(0).toUpperCase())}</div>
     <div class="msg-body">
       <div class="author">
         ${escapeHtml(msg.auteur)}
@@ -461,80 +654,54 @@ function renderMessage(msg) {
   if (canDelete) {
     div.querySelector(".msg-delete").addEventListener("click", async (e) => {
       e.stopPropagation();
-      const confirmMsg = IS_ADMIN && !isMine
-        ? `🛡️ Supprimer le message de ${msg.auteur} ?`
-        : "Supprimer ce message ?";
+      const isAdminDelete = CURRENT_USER.is_admin && !isMine;
+      const confirmMsg = isAdminDelete ? `🛡️ Supprimer le message de ${msg.auteur} ?` : "Supprimer ce message ?";
       if (!confirm(confirmMsg)) return;
-
-      const { error } = await sb.from("messages").delete().eq("id", msg.id);
-      if (error) { alert("Erreur: " + error.message); return; }
-      div.style.opacity = "0";
-      div.style.transform = "scale(.9)";
-      setTimeout(() => div.remove(), 200);
+      await sb.from("messages").delete().eq("id", msg.id);
     });
   }
 
   messagesEl.appendChild(div);
 }
 
-function scrollBottom() {
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
+function scrollBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
-function escapeHtml(s) {
-  const d = document.createElement("div");
-  d.textContent = s;
-  return d.innerHTML;
-}
-
-// ============ ENVOYER UN MESSAGE ============
+// ==================== ENVOYER MESSAGE ====================
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const pseudoRaw = pseudoInput.value.trim();
+  if (!CURRENT_USER) return;
+
   const contenu = messageInput.value.trim();
   if (!contenu) return;
 
-  let pseudo = pseudoRaw || "Anonyme";
-
-  // Si c'est le pseudo admin, demander le mot de passe
-  if (pseudo.toLowerCase() === ADMIN_USERNAME) {
-    const ok = await askAdminPassword();
-    if (!ok) {
-      messageInput.value = contenu; // remettre le texte
-      return;
-    }
-    IS_ADMIN = true;
-    adminBadgeHeader.classList.add("on");
-  }
-
-  localStorage.setItem("chat_pseudo", pseudo);
   messageInput.value = "";
 
-  const { error } = await sb.from("messages").insert({ auteur: pseudo, contenu });
+  const { error } = await sb.from("messages").insert({
+    auteur: CURRENT_USER.pseudo,
+    contenu,
+    user_id: CURRENT_USER.id,
+  });
+
   if (error) {
-    console.error("Erreur envoi:", error);
-    alert("Erreur d'envoi : " + error.message);
+    console.error(error);
+    alert("Erreur : " + error.message);
   }
   messageInput.focus();
 });
 
-// ============ REALTIME ============
-sb.channel("messages-realtime")
+// ==================== REALTIME ====================
+sb.channel("messages-live")
   .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (payload) => {
     const empty = messagesEl.querySelector(".empty");
     if (empty) empty.remove();
     renderMessage(payload.new);
     scrollBottom();
 
-    const myPseudo = (localStorage.getItem("chat_pseudo") || "").toLowerCase();
-    const isAdminMsg = payload.new.auteur.toLowerCase() === ADMIN_USERNAME;
+    const isMine = CURRENT_USER && payload.new.auteur.toLowerCase() === CURRENT_USER.pseudo.toLowerCase();
+    const isAdminMsg = (payload.new.auteur || "").toLowerCase() === "admin";
 
-    // Admin popup si c'est un admin qui parle
-    if (isAdminMsg && myPseudo !== ADMIN_USERNAME) {
-      showAdminPopup(`🛡️ Message administrateur`);
-    }
-
-    if (payload.new.auteur.toLowerCase() !== myPseudo) playNotif();
+    if (isAdminMsg && !isMine) showAdminPopup("🛡️ Message administrateur");
+    if (!isMine) playNotif();
   })
   .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, (payload) => {
     const el = messagesEl.querySelector(`[data-id="${payload.old.id}"]`);
@@ -542,21 +709,20 @@ sb.channel("messages-realtime")
   })
   .subscribe();
 
-// ============ POPUP ADMIN ============
+// ==================== POPUP ADMIN ====================
 function showAdminPopup(text) {
   adminPopup.textContent = text;
   adminPopup.classList.add("show");
   setTimeout(() => adminPopup.classList.remove("show"), 3000);
 }
 
-// ============ NOTIFICATION SONORE ============
+// ==================== SON ====================
 function playNotif() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+    osc.connect(gain); gain.connect(ctx.destination);
     osc.frequency.value = 800;
     gain.gain.value = 0.05;
     osc.start();
@@ -565,29 +731,18 @@ function playNotif() {
   } catch(e) {}
 }
 
-// ============ COMPTEUR EN LIGNE ============
-async function updateOnline() {
-  const pseudo = pseudoInput.value.trim();
-  if (!pseudo) return;
-
-  const { data: existing } = await sb.from("online_users").select("id").eq("pseudo", pseudo).maybeSingle();
-  if (existing) {
-    await sb.from("online_users").update({ last_seen: new Date().toISOString() }).eq("id", existing.id);
-  } else {
-    await sb.from("online_users").insert({ pseudo });
+// ==================== SESSION AUTO ====================
+(function init() {
+  const saved = sessionStorage.getItem("chat_user");
+  if (saved) {
+    try {
+      CURRENT_USER = JSON.parse(saved);
+      enterChat();
+    } catch (e) {
+      sessionStorage.removeItem("chat_user");
+    }
   }
-
-  const since = new Date(Date.now() - 30000).toISOString();
-  const { count } = await sb.from("online_users").select("*", { count: "exact", head: true }).gte("last_seen", since);
-  statusText.textContent = `${count || 1} en ligne`;
-}
-
-setInterval(updateOnline, 10000);
-
-if (pseudoInput.value) messageInput.focus();
-
-loadMessages();
-setTimeout(updateOnline, 1500);
+})();
 </script>
 </body>
 </html>

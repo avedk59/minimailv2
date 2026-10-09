@@ -32,6 +32,17 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .admin-badge-header {
+    font-size: 10px;
+    padding: 3px 10px;
+    background: linear-gradient(135deg, #ef4444, #f59e0b);
+    border-radius: 999px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    display: none;
+  }
+  .admin-badge-header.on { display: inline-block; }
   header .status {
     margin-left: auto;
     font-size: 12px;
@@ -40,10 +51,20 @@
     color: #10b981;
     border-radius: 999px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
-  header .status.offline {
-    background: rgba(239,68,68,.15);
-    color: #ef4444;
+  header .status.offline { background: rgba(239,68,68,.15); color: #ef4444; }
+  header .status .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50%     { opacity: .3; }
   }
   #messages {
     flex: 1;
@@ -60,22 +81,59 @@
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.1);
     animation: pop .25s cubic-bezier(.16,1,.3,1);
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
   }
   @keyframes pop {
     from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   .msg.mine {
     align-self: flex-end;
+    flex-direction: row-reverse;
     background: linear-gradient(135deg, #6366f1, #a855f7);
     border: none;
   }
+  .msg.admin {
+    background: linear-gradient(135deg, #7c2d12, #b91c1c);
+    border: 1px solid #f59e0b;
+    box-shadow: 0 0 20px rgba(245,158,11,.25);
+  }
+  .msg.admin.mine { background: linear-gradient(135deg, #b91c1c, #7c2d12); }
+  .msg.admin .author { color: #fbbf24; }
+  .msg-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 13px;
+    flex-shrink: 0;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  .msg.admin .msg-avatar { box-shadow: 0 0 0 2px #fbbf24; }
+  .msg-body { min-width: 0; }
   .msg .author {
     font-size: 11px;
     font-weight: 700;
-    opacity: .7;
-    margin-bottom: 4px;
+    opacity: .85;
+    margin-bottom: 3px;
     text-transform: uppercase;
+    letter-spacing: .05em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .msg .author .tag-admin {
+    font-size: 9px;
+    padding: 1px 6px;
+    background: #fbbf24;
+    color: #7c2d12;
+    border-radius: 4px;
+    font-weight: 800;
     letter-spacing: .05em;
   }
   .msg .content { font-size: 14px; line-height: 1.5; word-break: break-word; }
@@ -85,6 +143,26 @@
     margin-top: 4px;
     text-align: right;
   }
+  .msg-delete {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: rgba(0,0,0,.4);
+    color: #fff;
+    border: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .2s;
+    display: grid;
+    place-items: center;
+    font-family: inherit;
+  }
+  .msg:hover .msg-delete { opacity: 1; }
+  .msg-delete:hover { background: #ef4444; }
+
   form {
     display: flex;
     gap: 10px;
@@ -92,9 +170,11 @@
     background: rgba(255,255,255,.06);
     border-top: 1px solid rgba(255,255,255,.1);
     backdrop-filter: blur(20px);
+    align-items: center;
+    flex-wrap: wrap;
   }
   #pseudo {
-    width: 130px;
+    width: 120px;
     padding: 12px 14px;
     background: rgba(255,255,255,.08);
     border: 1.5px solid rgba(255,255,255,.15);
@@ -104,7 +184,6 @@
     outline: none;
     font-family: inherit;
   }
-  #pseudo:focus { border-color: #6366f1; }
   #message {
     flex: 1;
     padding: 12px 16px;
@@ -115,10 +194,55 @@
     font-size: 14px;
     outline: none;
     font-family: inherit;
+    min-width: 200px;
   }
-  #message:focus { border-color: #6366f1; }
-  button {
+  #pseudo:focus, #message:focus { border-color: #6366f1; }
+  #pseudo.admin-mode { border-color: #fbbf24; color: #fbbf24; font-weight: 700; }
+
+  .emoji-btn {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.08);
+    border: 1.5px solid rgba(255,255,255,.15);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all .2s;
+  }
+  .emoji-btn:hover { background: rgba(255,255,255,.15); }
+
+  .emoji-picker {
+    position: absolute;
+    bottom: 90px;
+    right: 24px;
+    background: #1e1b4b;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 14px;
+    padding: 12px;
+    display: none;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    z-index: 100;
+    max-width: 380px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .emoji-picker.open { display: grid; }
+  .emoji-picker span {
+    font-size: 22px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    text-align: center;
+    transition: background .15s;
+  }
+  .emoji-picker span:hover { background: rgba(255,255,255,.1); }
+
+  button[type="submit"] {
     padding: 0 24px;
+    height: 44px;
     background: linear-gradient(135deg, #6366f1, #a855f7);
     color: #fff;
     border: none;
@@ -128,22 +252,46 @@
     cursor: pointer;
     font-family: inherit;
     transition: transform .15s;
+    flex-shrink: 0;
   }
-  button:hover { transform: translateY(-2px); }
-  button:active { transform: translateY(0); }
+  button[type="submit"]:hover { transform: translateY(-2px); }
+  button[type="submit"]:active { transform: translateY(0); }
+
   .empty {
     text-align: center;
     color: rgba(255,255,255,.4);
     margin-top: 40px;
     font-size: 14px;
   }
+
+  /* Notification admin */
+  .admin-popup {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    background: linear-gradient(135deg, #7c2d12, #b91c1c);
+    border: 1px solid #fbbf24;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,.5);
+    display: none;
+    animation: pop .3s ease;
+    z-index: 500;
+  }
+  .admin-popup.show { display: block; }
 </style>
 </head>
 <body>
 
 <header>
   <h1>💬 Chat public — MiniMail</h1>
-  <span class="status" id="status">Connexion...</span>
+  <span class="admin-badge-header" id="adminBadgeHeader">🛡️ Admin</span>
+  <span class="status" id="status">
+    <span class="dot"></span>
+    <span id="statusText">Connexion...</span>
+  </span>
 </header>
 
 <div id="messages">
@@ -151,39 +299,120 @@
 </div>
 
 <form id="form">
-  <input type="text" id="pseudo" placeholder="Ton pseudo" maxlength="20" required />
+  <input type="text" id="pseudo" placeholder="Pseudo" maxlength="20" required />
+  <button type="button" class="emoji-btn" id="emojiBtn" title="Émojis">😀</button>
   <input type="text" id="message" placeholder="Écris un message..." maxlength="500" required autocomplete="off" />
   <button type="submit">Envoyer</button>
 </form>
 
+<div class="emoji-picker" id="emojiPicker"></div>
+<div class="admin-popup" id="adminPopup"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ⚠️ REMPLACE CES 2 LIGNES PAR TES VRAIES VALEURS
 const SUPABASE_URL = "https://qqxucvjlwtrenfrrlvgh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_yQXdPxGshaxHofMKgirgYg_omFshgvx";
+
+// ===== COMPTE ADMIN SECRET =====
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "MiniMail@2026!Admin";
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const messagesEl = document.getElementById("messages");
 const statusEl = document.getElementById("status");
+const statusText = document.getElementById("statusText");
 const form = document.getElementById("form");
 const pseudoInput = document.getElementById("pseudo");
 const messageInput = document.getElementById("message");
+const emojiBtn = document.getElementById("emojiBtn");
+const emojiPicker = document.getElementById("emojiPicker");
+const adminBadgeHeader = document.getElementById("adminBadgeHeader");
+const adminPopup = document.getElementById("adminPopup");
 
-// Récupère le pseudo sauvegardé
+// Est-ce qu'on est admin ?
+let IS_ADMIN = false;
+
+// Couleurs avatars
+const COLORS = ["#6366f1", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981", "#06b6d4", "#ef4444", "#84cc16", "#f97316", "#a855f7"];
+function colorFor(name) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  return COLORS[Math.abs(hash) % COLORS.length];
+}
+
+// Emojis
+const EMOJIS = ["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","🤨","😐","😑","😶","😏","😒","🙄","😬","🤥","😌","😔","😪","🤤","😴","😷","🤒","🤕","🤢","🤮","🥵","🥶","😵","🤯","🤠","🥳","😎","🤓","🧐","😕","😟","🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣","😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","💩","🤡","👹","👻","👽","🤖","🎃","❤️","🧡","💛","💚","💙","💜","🖤","🤍","💔","❣️","💕","💞","💓","💗","💖","💘","💝","👍","👎","👌","✌️","🤞","🤟","🤘","🤙","👈","👉","👆","👇","☝️","✋","🤚","🖐️","🖖","👋","🤝","🙏","💪","🦾","✍️","💅","👏","🙌","👐","🤲","🔥","✨","⭐","🌟","💫","⚡","☄️","💥","🎉","🎊","🎈","🎁","🏆","🥇","🥈","🥉"];
+
+EMOJIS.forEach(e => {
+  const s = document.createElement("span");
+  s.textContent = e;
+  s.addEventListener("click", () => {
+    messageInput.value += e;
+    messageInput.focus();
+  });
+  emojiPicker.appendChild(s);
+});
+
+emojiBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  emojiPicker.classList.toggle("open");
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#emojiPicker") && e.target !== emojiBtn) {
+    emojiPicker.classList.remove("open");
+  }
+});
+
+// Pseudo sauvegardé
 pseudoInput.value = localStorage.getItem("chat_pseudo") || "";
 
-// Charge les derniers messages
+// ============ DÉTECTION ADMIN ============
+pseudoInput.addEventListener("input", () => {
+  checkAdmin();
+});
+
+function checkAdmin() {
+  const p = pseudoInput.value.trim();
+  if (p === ADMIN_USERNAME) {
+    pseudoInput.classList.add("admin-mode");
+    // On affiche le badge admin seulement après avoir cliqué sur "Envoyer" (vérif mot de passe)
+  } else {
+    pseudoInput.classList.remove("admin-mode");
+    IS_ADMIN = false;
+    adminBadgeHeader.classList.remove("on");
+  }
+}
+
+// Demander le mot de passe admin une fois
+function askAdminPassword() {
+  return new Promise((resolve) => {
+    if (sessionStorage.getItem("chat_admin_auth") === "yes") {
+      resolve(true);
+      return;
+    }
+    const pwd = prompt("🔐 Mot de passe administrateur :");
+    if (pwd === ADMIN_PASSWORD) {
+      sessionStorage.setItem("chat_admin_auth", "yes");
+      resolve(true);
+    } else {
+      if (pwd !== null) alert("❌ Mot de passe incorrect");
+      resolve(false);
+    }
+  });
+}
+
+// ============ CHARGER LES MESSAGES ============
 async function loadMessages() {
   const { data, error } = await sb
     .from("messages")
     .select("*")
     .order("created_at", { ascending: true })
-    .limit(100);
+    .limit(200);
 
   if (error) {
     console.error("Erreur:", error);
-    statusEl.textContent = "Erreur";
+    statusText.textContent = "Erreur";
     statusEl.classList.add("offline");
     return;
   }
@@ -195,21 +424,56 @@ async function loadMessages() {
     data.forEach(renderMessage);
   }
   scrollBottom();
-  statusEl.textContent = "Connecté ✓";
+  statusText.textContent = "Connecté ✓";
   statusEl.classList.remove("offline");
 }
 
+// ============ AFFICHER UN MESSAGE ============
 function renderMessage(msg) {
   const div = document.createElement("div");
   div.className = "msg";
-  const pseudo = localStorage.getItem("chat_pseudo") || "?";
-  if (msg.auteur === pseudo) div.classList.add("mine");
+  div.dataset.id = msg.id;
+
+  const myPseudo = (localStorage.getItem("chat_pseudo") || "").toLowerCase();
+  const isMine = msg.auteur.toLowerCase() === myPseudo;
+  const isAdminMsg = msg.auteur.toLowerCase() === ADMIN_USERNAME;
+
+  if (isMine) div.classList.add("mine");
+  if (isAdminMsg) div.classList.add("admin");
+
   const time = new Date(msg.created_at).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+  const color = isAdminMsg ? "#fbbf24" : colorFor(msg.auteur);
+  const canDelete = isMine || IS_ADMIN;
+
   div.innerHTML = `
-    <div class="author">${escapeHtml(msg.auteur)}</div>
-    <div class="content">${escapeHtml(msg.contenu)}</div>
-    <div class="time">${time}</div>
+    <div class="msg-avatar" style="background:${color}">${escapeHtml(msg.auteur.charAt(0).toUpperCase())}</div>
+    <div class="msg-body">
+      <div class="author">
+        ${escapeHtml(msg.auteur)}
+        ${isAdminMsg ? '<span class="tag-admin">Admin</span>' : ''}
+      </div>
+      <div class="content">${escapeHtml(msg.contenu)}</div>
+      <div class="time">${time}</div>
+    </div>
+    ${canDelete ? '<button class="msg-delete" title="Supprimer">✕</button>' : ''}
   `;
+
+  if (canDelete) {
+    div.querySelector(".msg-delete").addEventListener("click", async (e) => {
+      e.stopPropagation();
+      const confirmMsg = IS_ADMIN && !isMine
+        ? `🛡️ Supprimer le message de ${msg.auteur} ?`
+        : "Supprimer ce message ?";
+      if (!confirm(confirmMsg)) return;
+
+      const { error } = await sb.from("messages").delete().eq("id", msg.id);
+      if (error) { alert("Erreur: " + error.message); return; }
+      div.style.opacity = "0";
+      div.style.transform = "scale(.9)";
+      setTimeout(() => div.remove(), 200);
+    });
+  }
+
   messagesEl.appendChild(div);
 }
 
@@ -223,12 +487,25 @@ function escapeHtml(s) {
   return d.innerHTML;
 }
 
-// Envoi d'un message
+// ============ ENVOYER UN MESSAGE ============
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const pseudo = pseudoInput.value.trim() || "Anonyme";
+  const pseudoRaw = pseudoInput.value.trim();
   const contenu = messageInput.value.trim();
   if (!contenu) return;
+
+  let pseudo = pseudoRaw || "Anonyme";
+
+  // Si c'est le pseudo admin, demander le mot de passe
+  if (pseudo.toLowerCase() === ADMIN_USERNAME) {
+    const ok = await askAdminPassword();
+    if (!ok) {
+      messageInput.value = contenu; // remettre le texte
+      return;
+    }
+    IS_ADMIN = true;
+    adminBadgeHeader.classList.add("on");
+  }
 
   localStorage.setItem("chat_pseudo", pseudo);
   messageInput.value = "";
@@ -238,25 +515,79 @@ form.addEventListener("submit", async (e) => {
     console.error("Erreur envoi:", error);
     alert("Erreur d'envoi : " + error.message);
   }
+  messageInput.focus();
 });
 
-// Écoute les nouveaux messages en temps réel
+// ============ REALTIME ============
 sb.channel("messages-realtime")
   .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (payload) => {
     const empty = messagesEl.querySelector(".empty");
     if (empty) empty.remove();
     renderMessage(payload.new);
     scrollBottom();
+
+    const myPseudo = (localStorage.getItem("chat_pseudo") || "").toLowerCase();
+    const isAdminMsg = payload.new.auteur.toLowerCase() === ADMIN_USERNAME;
+
+    // Admin popup si c'est un admin qui parle
+    if (isAdminMsg && myPseudo !== ADMIN_USERNAME) {
+      showAdminPopup(`🛡️ Message administrateur`);
+    }
+
+    if (payload.new.auteur.toLowerCase() !== myPseudo) playNotif();
+  })
+  .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, (payload) => {
+    const el = messagesEl.querySelector(`[data-id="${payload.old.id}"]`);
+    if (el) el.remove();
   })
   .subscribe();
 
-// Charge au démarrage
-loadMessages();
-
-// Focus auto sur le champ message si pseudo déjà rempli
-if (pseudoInput.value) {
-  messageInput.focus();
+// ============ POPUP ADMIN ============
+function showAdminPopup(text) {
+  adminPopup.textContent = text;
+  adminPopup.classList.add("show");
+  setTimeout(() => adminPopup.classList.remove("show"), 3000);
 }
+
+// ============ NOTIFICATION SONORE ============
+function playNotif() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 800;
+    gain.gain.value = 0.05;
+    osc.start();
+    setTimeout(() => osc.stop(), 100);
+    osc.onended = () => ctx.close();
+  } catch(e) {}
+}
+
+// ============ COMPTEUR EN LIGNE ============
+async function updateOnline() {
+  const pseudo = pseudoInput.value.trim();
+  if (!pseudo) return;
+
+  const { data: existing } = await sb.from("online_users").select("id").eq("pseudo", pseudo).maybeSingle();
+  if (existing) {
+    await sb.from("online_users").update({ last_seen: new Date().toISOString() }).eq("id", existing.id);
+  } else {
+    await sb.from("online_users").insert({ pseudo });
+  }
+
+  const since = new Date(Date.now() - 30000).toISOString();
+  const { count } = await sb.from("online_users").select("*", { count: "exact", head: true }).gte("last_seen", since);
+  statusText.textContent = `${count || 1} en ligne`;
+}
+
+setInterval(updateOnline, 10000);
+
+if (pseudoInput.value) messageInput.focus();
+
+loadMessages();
+setTimeout(updateOnline, 1500);
 </script>
 </body>
 </html>

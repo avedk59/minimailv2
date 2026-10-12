@@ -569,6 +569,9 @@ const SUPABASE_KEY = "sb_publishable_yQXdPxGshaxHofMKgirgYg_omFshgvx";
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// ✅ CLÉ DE STOCKAGE : localStorage = reste connecté après fermeture
+const STORAGE_KEY = "chat_user";
+
 // ==================== HELPERS ====================
 function hashPassword(pwd) {
   return btoa(unescape(encodeURIComponent("mm#" + pwd)));
@@ -670,7 +673,8 @@ registerForm.addEventListener("submit", async (e) => {
 
   if (error) { regError.textContent = "Erreur : " + error.message; return; }
 
-  sessionStorage.setItem("chat_user", JSON.stringify(data));
+  // ✅ localStorage au lieu de sessionStorage
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   CURRENT_USER = data;
   enterChat();
 });
@@ -694,13 +698,15 @@ loginForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  sessionStorage.setItem("chat_user", JSON.stringify(data));
+  // ✅ localStorage au lieu de sessionStorage
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   CURRENT_USER = data;
   enterChat();
 });
 
 logoutBtn.addEventListener("click", () => {
-  sessionStorage.removeItem("chat_user");
+  // ✅ localStorage au lieu de sessionStorage
+  localStorage.removeItem(STORAGE_KEY);
   CURRENT_USER = null;
   chatContainer.style.display = "none";
   authScreen.style.display = "flex";
@@ -842,7 +848,8 @@ sb.channel("users-live")
     // Si c'est moi qui viens d'être banni
     if (CURRENT_USER && payload.new.id === CURRENT_USER.id && payload.new.is_banned) {
       alert("🚫 Ton compte vient d'être bloqué par un administrateur. Tu vas être déconnecté.");
-      sessionStorage.removeItem("chat_user");
+      // ✅ localStorage
+      localStorage.removeItem(STORAGE_KEY);
       CURRENT_USER = null;
       chatContainer.style.display = "none";
       authScreen.style.display = "flex";
@@ -990,12 +997,8 @@ async function banUser(userId) {
 
   if (error) { alert("Erreur : " + error.message); return; }
 
-  // Supprimer aussi ses messages (optionnel)
+  // Supprimer aussi ses messages
   await sb.from("messages").delete().eq("auteur", user.pseudo);
-
-  // Supprimer son pseudo (pour empêcher la réutilisation)
-  // On ne supprime PAS la ligne pour garder la trace du ban
-  // Mais on bloque la reconnexion via is_banned
 
   showAdminPopup(`🚫 ${user.pseudo} a été banni`);
   await refreshAdminData();
@@ -1054,9 +1057,10 @@ function renderAdminStats() {
   adminPanelBody.innerHTML = html;
 }
 
-// ==================== SESSION AUTO ====================
+// ==================== SESSION AUTO (avec localStorage) ====================
 (async function init() {
-  const saved = sessionStorage.getItem("chat_user");
+  // ✅ localStorage au lieu de sessionStorage
+  const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     try {
       const u = JSON.parse(saved);
@@ -1064,13 +1068,16 @@ function renderAdminStats() {
       const { data } = await sb.from("chat_users").select("*").eq("id", u.id).maybeSingle();
       if (data && !data.is_banned) {
         CURRENT_USER = data;
-        sessionStorage.setItem("chat_user", JSON.stringify(data));
+        // ✅ localStorage
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         enterChat();
       } else {
-        sessionStorage.removeItem("chat_user");
+        // ✅ localStorage
+        localStorage.removeItem(STORAGE_KEY);
       }
     } catch (e) {
-      sessionStorage.removeItem("chat_user");
+      // ✅ localStorage
+      localStorage.removeItem(STORAGE_KEY);
     }
   }
 })();

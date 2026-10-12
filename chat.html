@@ -109,6 +109,18 @@
     width: 26px; height: 26px; border-radius: 50%;
     display: grid; place-items: center;
     font-size: 11px; font-weight: 800; text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+    border: 2px solid transparent;
+  }
+  .user-avatar-small:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px rgba(99,102,241,.6);
+    border-color: #6366f1;
+  }
+  .user-avatar-small img {
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;
   }
   .admin-badge {
     font-size: 9px; padding: 2px 7px;
@@ -144,7 +156,6 @@
     align-items: center;
     gap: 12px;
     font-size: 14px;
-    position: relative;
     animation: slideDown .3s ease;
   }
   @keyframes slideDown {
@@ -152,25 +163,12 @@
     to   { opacity: 1; transform: translateY(0); }
   }
   .pinned-announcement.show { display: flex; }
-  .pinned-announcement .pin-icon {
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .pinned-announcement .pin-content {
-    flex: 1;
-    font-weight: 600;
-    line-height: 1.4;
-  }
+  .pinned-announcement .pin-icon { font-size: 20px; flex-shrink: 0; }
+  .pinned-announcement .pin-content { flex: 1; font-weight: 600; line-height: 1.4; }
   .pinned-announcement .pin-close {
-    background: rgba(255,255,255,.15);
-    border: none;
-    color: #fff;
-    width: 28px; height: 28px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 14px;
-    flex-shrink: 0;
+    background: rgba(255,255,255,.15); border: none; color: #fff;
+    width: 28px; height: 28px; border-radius: 8px;
+    cursor: pointer; font-family: inherit; font-size: 14px; flex-shrink: 0;
   }
   .pinned-announcement .pin-close:hover { background: rgba(255,255,255,.3); }
 
@@ -206,6 +204,10 @@
     display: grid; place-items: center;
     font-weight: 800; font-size: 13px;
     flex-shrink: 0; color: #fff; text-transform: uppercase;
+    overflow: hidden;
+  }
+  .msg-avatar img {
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;
   }
   .msg.admin-msg .msg-avatar { box-shadow: 0 0 0 2px #fbbf24; }
   .msg-body { min-width: 0; }
@@ -254,6 +256,9 @@
     border: 1.5px solid rgba(255,255,255,.15);
     color: #fff; font-size: 20px;
     cursor: pointer; flex-shrink: 0; transition: all .2s;
+    display: grid; place-items: center;
+    padding: 0; line-height: 1;
+    overflow: hidden;
   }
   .emoji-btn:hover { background: rgba(255,255,255,.15); }
   .emoji-picker {
@@ -291,7 +296,6 @@
   }
   .admin-popup.show { display: block; }
 
-  /* Popup globale */
   .global-popup {
     position: fixed; top: 80px; left: 50%;
     transform: translateX(-50%) translateY(-150%);
@@ -300,16 +304,97 @@
     padding: 18px 28px; border-radius: 16px;
     font-size: 15px; font-weight: 700;
     box-shadow: 0 20px 60px rgba(0,0,0,.6);
-    z-index: 999;
-    max-width: 500px;
+    z-index: 999; max-width: 500px;
     transition: transform .4s cubic-bezier(.16,1,.3,1);
     text-align: center;
   }
   .global-popup.show { transform: translateX(-50%) translateY(0); }
-  .global-popup .popup-icon {
-    font-size: 28px;
-    margin-bottom: 6px;
-    display: block;
+  .global-popup .popup-icon { font-size: 28px; margin-bottom: 6px; display: block; }
+
+  /* ============ MODAL PHOTO DE PROFIL ============ */
+  .avatar-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.75);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1100;
+  }
+  .avatar-modal.open { display: flex; }
+  .avatar-modal-content {
+    background: linear-gradient(135deg, #1a1f3a 0%, #2a1f3a 100%);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 20px;
+    padding: 32px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+    text-align: center;
+    animation: pop .3s cubic-bezier(.16,1,.3,1);
+  }
+  .avatar-modal-content h2 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+  .avatar-preview-large {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: grid;
+    place-items: center;
+    font-size: 56px;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    border: 4px solid rgba(255,255,255,.2);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    overflow: hidden;
+  }
+  .avatar-preview-large img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .avatar-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .avatar-modal-actions button {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: all .2s;
+  }
+  .avatar-modal-actions .btn-upload {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: #fff;
+  }
+  .avatar-modal-actions .btn-upload:hover { transform: translateY(-2px); }
+  .avatar-modal-actions .btn-remove {
+    background: rgba(239,68,68,.15);
+    color: #ef4444;
+    border: 1px solid rgba(239,68,68,.3);
+  }
+  .avatar-modal-actions .btn-remove:hover { background: #ef4444; color: #fff; }
+  .avatar-modal-actions .btn-cancel {
+    background: rgba(255,255,255,.1);
+    color: #fff;
+  }
+  .avatar-modal-actions .btn-cancel:hover { background: rgba(255,255,255,.2); }
+  .avatar-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,.5);
+    margin-top: 16px;
   }
 
   /* ============ PANNEAU ADMIN ============ */
@@ -379,6 +464,10 @@
     display: grid; place-items: center;
     font-weight: 800; font-size: 16px;
     text-transform: uppercase; color: #fff; flex-shrink: 0;
+    overflow: hidden;
+  }
+  .user-row-avatar img {
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
   }
   .user-row-info { flex: 1; min-width: 0; }
   .user-row-name {
@@ -557,7 +646,7 @@
     <h1>💬 Chat public — MiniMail</h1>
     <span class="lock-badge" id="lockBadge">🔒 CHAT VERROUILLÉ</span>
     <div class="user-info">
-      <div class="user-avatar-small" id="myAvatar">?</div>
+      <div class="user-avatar-small" id="myAvatar" title="Clique pour changer ta photo">?</div>
       <span id="myPseudo">—</span>
       <span class="admin-badge" id="adminBadge" style="display:none;">🛡️ Admin</span>
       <button type="button" class="admin-btn" id="adminPanelBtn" style="display:none;">⚙️ Panneau</button>
@@ -596,6 +685,21 @@
     <button type="button" class="admin-panel-tab" data-tab="stats">📊 Statistiques</button>
   </div>
   <div class="admin-panel-body" id="adminPanelBody"></div>
+</div>
+
+<!-- Modal photo de profil -->
+<div class="avatar-modal" id="avatarModal">
+  <div class="avatar-modal-content">
+    <h2>📷 Ma photo de profil</h2>
+    <div class="avatar-preview-large" id="avatarPreview"></div>
+    <input type="file" id="avatarFileInput" accept="image/*" hidden />
+    <div class="avatar-modal-actions">
+      <button type="button" class="btn-upload" id="avatarUploadBtn">📁 Choisir une image</button>
+      <button type="button" class="btn-remove" id="avatarRemoveBtn">🗑️ Retirer</button>
+      <button type="button" class="btn-cancel" id="avatarCancelBtn">Annuler</button>
+    </div>
+    <p class="avatar-hint">Formats acceptés : JPG, PNG, GIF · Max 2 Mo</p>
+  </div>
 </div>
 
 <!-- Popup globale -->
@@ -647,6 +751,20 @@ function colorFor(name) {
   return COLORS[Math.abs(hash) % COLORS.length];
 }
 
+// Rend un avatar (image ou initiale) dans un élément
+function renderAvatarInElement(el, pseudo, avatarData) {
+  if (!el) return;
+  if (avatarData) {
+    el.textContent = "";
+    el.style.background = "transparent";
+    el.innerHTML = `<img src="${avatarData}" alt="${escapeHtml(pseudo)}" />`;
+  } else {
+    el.innerHTML = "";
+    el.textContent = pseudo.charAt(0).toUpperCase();
+    el.style.background = colorFor(pseudo);
+  }
+}
+
 // ==================== ÉTAT ====================
 let CURRENT_USER = null;
 let ADMIN_TAB = "users";
@@ -683,6 +801,9 @@ const pinnedContent = document.getElementById("pinnedContent");
 const pinnedClose = document.getElementById("pinnedClose");
 const lockBadge = document.getElementById("lockBadge");
 const globalPopup = document.getElementById("globalPopup");
+const avatarModal = document.getElementById("avatarModal");
+const avatarPreview = document.getElementById("avatarPreview");
+const avatarFileInput = document.getElementById("avatarFileInput");
 
 // ==================== AUTH ====================
 tabLogin.addEventListener("click", () => {
@@ -753,15 +874,21 @@ logoutBtn.addEventListener("click", () => {
 async function enterChat() {
   authScreen.style.display = "none";
   chatContainer.style.display = "flex";
-  myAvatar.textContent = CURRENT_USER.pseudo.charAt(0).toUpperCase();
-  myAvatar.style.background = colorFor(CURRENT_USER.pseudo);
+  renderAvatarInElement(myAvatar, CURRENT_USER.pseudo, CURRENT_USER.avatar);
   myPseudoEl.textContent = CURRENT_USER.pseudo;
   adminBadge.style.display = CURRENT_USER.is_admin ? "inline-block" : "none";
   adminPanelBtn.style.display = CURRENT_USER.is_admin ? "inline-block" : "none";
 
+  await loadAllUsersPublic();
   await loadSettings();
   loadMessages();
   messageInput.focus();
+}
+
+// Charge tous les utilisateurs (pour avoir leurs avatars)
+async function loadAllUsersPublic() {
+  const { data } = await sb.from("chat_users").select("id, pseudo, avatar, is_admin");
+  ALL_USERS = data || [];
 }
 
 // ==================== EMOJIS ====================
@@ -794,7 +921,6 @@ async function loadSettings() {
 }
 
 function applySettings() {
-  // Annonce épinglée
   if (CHAT_SETTINGS.pinned_message && CHAT_SETTINGS.pinned_message.trim()) {
     pinnedContent.textContent = CHAT_SETTINGS.pinned_message;
     pinnedAnnouncement.classList.add("show");
@@ -802,7 +928,6 @@ function applySettings() {
     pinnedAnnouncement.classList.remove("show");
   }
 
-  // Chat verrouillé
   const locked = CHAT_SETTINGS.chat_locked === "true";
   lockBadge.classList.toggle("show", locked);
   const isAdmin = CURRENT_USER && CURRENT_USER.is_admin;
@@ -811,7 +936,6 @@ function applySettings() {
     ? "🔒 Chat verrouillé par un administrateur"
     : "Écris un message...";
 
-  // Popup globale (une seule fois par annonce)
   const popupAt = parseInt(CHAT_SETTINGS.global_popup_at || "0", 10);
   if (CHAT_SETTINGS.global_popup && popupAt > POPUP_SHOWN_AT && popupAt > 0) {
     showGlobalPopup(CHAT_SETTINGS.global_popup);
@@ -859,8 +983,15 @@ function renderMessage(msg) {
   const color = isAdminMsg ? "#fbbf24" : colorFor(msg.auteur);
   const canDelete = isMine || (CURRENT_USER && CURRENT_USER.is_admin);
 
+  // Chercher l'avatar de l'auteur
+  const authorUser = ALL_USERS.find(u => u.pseudo === msg.auteur);
+  const authorAvatar = authorUser ? authorUser.avatar : null;
+  const avatarHTML = authorAvatar
+    ? `<img src="${authorAvatar}" alt="${escapeHtml(msg.auteur)}" />`
+    : escapeHtml((msg.auteur || "?").charAt(0).toUpperCase());
+
   div.innerHTML = `
-    <div class="msg-avatar" style="background:${color}">${escapeHtml((msg.auteur || "?").charAt(0).toUpperCase())}</div>
+    <div class="msg-avatar" style="background:${color}">${avatarHTML}</div>
     <div class="msg-body">
       <div class="author">
         ${escapeHtml(msg.auteur)}
@@ -891,7 +1022,6 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!CURRENT_USER) return;
 
-  // Vérifier mute
   const { data: fresh } = await sb.from("chat_users").select("*").eq("id", CURRENT_USER.id).maybeSingle();
   if (fresh) {
     CURRENT_USER = fresh;
@@ -920,6 +1050,95 @@ form.addEventListener("submit", async (e) => {
   messageInput.focus();
 });
 
+// ==================== PHOTO DE PROFIL ====================
+myAvatar.addEventListener("click", () => {
+  openAvatarModal();
+});
+
+function openAvatarModal() {
+  if (CURRENT_USER.avatar) {
+    avatarPreview.style.backgroundImage = `url(${CURRENT_USER.avatar})`;
+    avatarPreview.textContent = "";
+    avatarPreview.innerHTML = `<img src="${CURRENT_USER.avatar}" alt="avatar" />`;
+  } else {
+    avatarPreview.style.backgroundImage = "";
+    avatarPreview.textContent = CURRENT_USER.pseudo.charAt(0).toUpperCase();
+    avatarPreview.style.background = colorFor(CURRENT_USER.pseudo);
+  }
+  avatarModal.classList.add("open");
+}
+
+function closeAvatarModal() {
+  avatarModal.classList.remove("open");
+}
+
+document.getElementById("avatarCancelBtn").addEventListener("click", closeAvatarModal);
+avatarModal.addEventListener("click", (e) => {
+  if (e.target === avatarModal) closeAvatarModal();
+});
+
+document.getElementById("avatarUploadBtn").addEventListener("click", () => {
+  avatarFileInput.click();
+});
+
+avatarFileInput.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (file.size > 2 * 1024 * 1024) {
+    alert("⚠️ Image trop lourde (max 2 Mo). Choisis une image plus petite.");
+    e.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    const dataUrl = ev.target.result;
+
+    const { error } = await sb.from("chat_users")
+      .update({ avatar: dataUrl })
+      .eq("id", CURRENT_USER.id);
+
+    if (error) {
+      alert("Erreur : " + error.message);
+      return;
+    }
+
+    CURRENT_USER.avatar = dataUrl;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(CURRENT_USER));
+
+    renderAvatarInElement(myAvatar, CURRENT_USER.pseudo, CURRENT_USER.avatar);
+    await loadAllUsersPublic();
+    loadMessages();
+
+    closeAvatarModal();
+    showAdminPopup("✅ Photo mise à jour !");
+  };
+  reader.readAsDataURL(file);
+  e.target.value = "";
+});
+
+document.getElementById("avatarRemoveBtn").addEventListener("click", async () => {
+  if (!CURRENT_USER.avatar) { closeAvatarModal(); return; }
+  if (!confirm("Retirer ta photo de profil ?")) return;
+
+  const { error } = await sb.from("chat_users")
+    .update({ avatar: null })
+    .eq("id", CURRENT_USER.id);
+
+  if (error) { alert("Erreur : " + error.message); return; }
+
+  CURRENT_USER.avatar = null;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(CURRENT_USER));
+
+  renderAvatarInElement(myAvatar, CURRENT_USER.pseudo, null);
+  await loadAllUsersPublic();
+  loadMessages();
+
+  closeAvatarModal();
+  showAdminPopup("🗑️ Photo retirée");
+});
+
 // ==================== REALTIME ====================
 sb.channel("messages-live")
   .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (payload) => {
@@ -939,7 +1158,6 @@ sb.channel("messages-live")
   })
   .subscribe();
 
-// Realtime utilisateurs (ban/mute en direct)
 sb.channel("users-live")
   .on("postgres_changes", { event: "UPDATE", schema: "public", table: "chat_users" }, (payload) => {
     if (CURRENT_USER && payload.new.id === CURRENT_USER.id) {
@@ -953,8 +1171,7 @@ sb.channel("users-live")
       }
       CURRENT_USER = payload.new;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.new));
-      // Rafraîchir l'UI au cas où le pseudo a changé
-      myAvatar.textContent = CURRENT_USER.pseudo.charAt(0).toUpperCase();
+      renderAvatarInElement(myAvatar, CURRENT_USER.pseudo, CURRENT_USER.avatar);
       myPseudoEl.textContent = CURRENT_USER.pseudo;
       adminBadge.style.display = CURRENT_USER.is_admin ? "inline-block" : "none";
       adminPanelBtn.style.display = CURRENT_USER.is_admin ? "inline-block" : "none";
@@ -962,7 +1179,6 @@ sb.channel("users-live")
   })
   .subscribe();
 
-// Realtime settings (annonce, verrouillage, popup)
 sb.channel("settings-live")
   .on("postgres_changes", { event: "*", schema: "public", table: "chat_settings" }, (payload) => {
     if (payload.new) {
@@ -1032,7 +1248,6 @@ function renderAdminPanel() {
   else if (ADMIN_TAB === "stats") renderAdminStats();
 }
 
-// ==================== ONGLET UTILISATEURS ====================
 function renderAdminUsers() {
   const total = ALL_USERS.length;
   const banned = ALL_USERS.filter(u => u.is_banned).length;
@@ -1060,10 +1275,13 @@ function renderAdminUsers() {
     const isBanned = u.is_banned;
     const isMutedUser = isMuted(u);
     const color = colorFor(u.pseudo);
+    const avatarHTML = u.avatar
+      ? `<img src="${u.avatar}" alt="${escapeHtml(u.pseudo)}" />`
+      : escapeHtml(u.pseudo.charAt(0).toUpperCase());
 
     html += `
       <div class="user-row ${isBanned ? 'banned' : ''} ${isMutedUser ? 'muted' : ''}">
-        <div class="user-row-avatar" style="background:${color}">${escapeHtml(u.pseudo.charAt(0).toUpperCase())}</div>
+        <div class="user-row-avatar" style="background:${color}">${avatarHTML}</div>
         <div class="user-row-info">
           <div class="user-row-name">
             ${escapeHtml(u.pseudo)}
@@ -1102,7 +1320,6 @@ function renderAdminUsers() {
   adminPanelBody.querySelectorAll("[data-rename]").forEach(b => b.addEventListener("click", () => renameUser(b.dataset.rename)));
 }
 
-// ==================== ONGLET MODÉRATION ====================
 function renderAdminModeration() {
   const locked = CHAT_SETTINGS.chat_locked === "true";
   const pinned = CHAT_SETTINGS.pinned_message || "";
@@ -1176,18 +1393,15 @@ async function setSetting(key, value) {
   showAdminPopup("✅ Enregistré");
 }
 
-// ==================== ACTIONS ADMIN ====================
 async function banUser(userId) {
   const user = ALL_USERS.find(u => String(u.id) === String(userId));
   if (!user) return;
   const reason = prompt(`🚫 Bannir ${user.pseudo} ?\nRaison (optionnelle) :`, "");
   if (reason === null) return;
-
   const { error } = await sb.from("chat_users")
     .update({ is_banned: true, banned_at: new Date().toISOString(), banned_reason: reason || null })
     .eq("id", userId);
   if (error) { alert("Erreur : " + error.message); return; }
-
   await sb.from("messages").delete().eq("auteur", user.pseudo);
   showAdminPopup(`🚫 ${user.pseudo} a été banni`);
   await refreshAdminData();
@@ -1212,7 +1426,6 @@ async function muteUser(userId) {
   if (!minutes) return;
   const min = parseInt(minutes, 10);
   if (!min || min < 1) { alert("Nombre de minutes invalide."); return; }
-
   const until = new Date(Date.now() + min * 60000).toISOString();
   const { error } = await sb.from("chat_users").update({ muted_until: until }).eq("id", userId);
   if (error) { alert("Erreur : " + error.message); return; }
@@ -1262,20 +1475,15 @@ async function renameUser(userId) {
   }
   if (clean.toLowerCase() === "admin") { alert("Pseudo réservé."); return; }
 
-  // Vérifier que le nouveau pseudo n'existe pas déjà
   const { data: existing } = await sb.from("chat_users").select("id").eq("pseudo", clean).maybeSingle();
   if (existing) { alert("Ce pseudo est déjà pris."); return; }
 
   if (!confirm(`✏️ Renommer ${user.pseudo} → ${clean} ?\n\nLes messages existants seront aussi renommés.`)) return;
 
-  // Mettre à jour l'utilisateur
   const { error: e1 } = await sb.from("chat_users").update({ pseudo: clean }).eq("id", userId);
   if (e1) { alert("Erreur : " + e1.message); return; }
-
-  // Mettre à jour ses messages
   await sb.from("messages").update({ auteur: clean }).eq("auteur", user.pseudo);
 
-  // Si c'est MOI qui ai été renommé
   if (CURRENT_USER.id === user.id) {
     CURRENT_USER.pseudo = clean;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(CURRENT_USER));
@@ -1287,7 +1495,6 @@ async function renameUser(userId) {
   await refreshAdminData();
 }
 
-// ==================== STATS ====================
 function renderAdminStats() {
   const totalUsers = ALL_USERS.length;
   const bannedUsers = ALL_USERS.filter(u => u.is_banned).length;

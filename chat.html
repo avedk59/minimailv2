@@ -26,6 +26,7 @@
     justify-content: center;
     padding: 20px;
     z-index: 1000;
+    overflow-y: auto;
   }
   .auth-card {
     background: rgba(255,255,255,.06);
@@ -51,167 +52,112 @@
     font-size: 30px;
     box-shadow: 0 8px 24px rgba(99,102,241,.4);
   }
-  .auth-title {
-    font-size: 22px;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 6px;
-  }
-  .auth-subtitle {
-    font-size: 13.5px;
-    text-align: center;
-    color: rgba(255,255,255,.6);
-    margin-bottom: 28px;
-  }
+  .auth-title { font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 6px; }
+  .auth-subtitle { font-size: 13.5px; text-align: center; color: rgba(255,255,255,.6); margin-bottom: 28px; }
   .auth-tabs {
-    display: flex;
-    gap: 4px;
-    padding: 4px;
-    background: rgba(0,0,0,.2);
-    border-radius: 12px;
-    margin-bottom: 24px;
+    display: flex; gap: 4px; padding: 4px;
+    background: rgba(0,0,0,.2); border-radius: 12px; margin-bottom: 24px;
   }
   .auth-tab {
-    flex: 1;
-    padding: 9px;
-    border-radius: 9px;
-    font-size: 13.5px;
-    font-weight: 600;
+    flex: 1; padding: 9px; border-radius: 9px;
+    font-size: 13.5px; font-weight: 600;
     color: rgba(255,255,255,.6);
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all .2s;
+    background: none; border: none; cursor: pointer;
+    font-family: inherit; transition: all .2s;
   }
-  .auth-tab.active {
-    background: rgba(255,255,255,.1);
-    color: #fff;
-  }
+  .auth-tab.active { background: rgba(255,255,255,.1); color: #fff; }
   .auth-form { display: none; flex-direction: column; gap: 14px; }
   .auth-form.active { display: flex; }
   .auth-form input {
-    width: 100%;
-    padding: 14px 16px;
+    width: 100%; padding: 14px 16px;
     background: rgba(255,255,255,.06);
     border: 1.5px solid rgba(255,255,255,.15);
-    border-radius: 12px;
-    color: #fff;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: all .2s;
+    border-radius: 12px; color: #fff; font-size: 14px;
+    font-family: inherit; outline: none; transition: all .2s;
   }
   .auth-form input:focus { border-color: #6366f1; background: rgba(255,255,255,.1); }
   .auth-btn {
     padding: 14px;
     background: linear-gradient(135deg, #6366f1, #a855f7);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 14px;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all .2s;
-    margin-top: 4px;
+    color: #fff; border: none; border-radius: 12px;
+    font-weight: 700; font-size: 14px;
+    font-family: inherit; cursor: pointer;
+    transition: all .2s; margin-top: 4px;
   }
   .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(99,102,241,.4); }
   .auth-error {
-    color: #ef4444;
-    font-size: 12.5px;
-    text-align: center;
-    min-height: 16px;
-    font-weight: 500;
+    color: #ef4444; font-size: 12.5px;
+    text-align: center; min-height: 16px; font-weight: 500;
   }
 
-  /* ============ CHAT PRINCIPAL ============ */
+  /* ============ CHAT ============ */
   header {
     background: rgba(255,255,255,.06);
     padding: 16px 24px;
     border-bottom: 1px solid rgba(255,255,255,.1);
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: flex; align-items: center; gap: 12px;
     backdrop-filter: blur(20px);
   }
   header h1 {
-    font-size: 18px;
-    font-weight: 800;
+    font-size: 18px; font-weight: 800;
     background: linear-gradient(135deg, #6366f1, #a855f7);
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .user-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: auto;
-    padding: 6px 12px 6px 6px;
+    display: flex; align-items: center; gap: 8px;
+    margin-left: auto; padding: 6px 12px 6px 6px;
     background: rgba(255,255,255,.06);
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 600;
+    border-radius: 999px; font-size: 13px; font-weight: 600;
   }
   .user-avatar-small {
-    width: 26px; height: 26px;
-    border-radius: 50%;
+    width: 26px; height: 26px; border-radius: 50%;
     display: grid; place-items: center;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
+    font-size: 11px; font-weight: 800; text-transform: uppercase;
   }
   .admin-badge {
-    font-size: 9px;
-    padding: 2px 7px;
+    font-size: 9px; padding: 2px 7px;
     background: linear-gradient(135deg, #ef4444, #f59e0b);
-    border-radius: 4px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .05em;
+    border-radius: 4px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .05em;
   }
+  .admin-btn {
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: #fff; border: none; border-radius: 8px;
+    font-size: 11px; font-weight: 800;
+    cursor: pointer; font-family: inherit;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .admin-btn:hover { transform: translateY(-1px); }
   .logout-btn {
     padding: 4px 10px;
     background: rgba(239,68,68,.15);
-    color: #ef4444;
-    border: none;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    margin-left: 4px;
+    color: #ef4444; border: none;
+    border-radius: 6px; font-size: 11px;
+    font-weight: 700; cursor: pointer;
+    font-family: inherit; margin-left: 4px;
   }
   .logout-btn:hover { background: rgba(239,68,68,.25); }
 
   #messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex: 1; overflow-y: auto; padding: 24px;
+    display: flex; flex-direction: column; gap: 12px;
   }
   .msg {
-    max-width: 70%;
-    padding: 10px 16px;
+    max-width: 70%; padding: 10px 16px;
     border-radius: 14px;
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.1);
     animation: msgIn .25s cubic-bezier(.16,1,.3,1);
-    position: relative;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
+    position: relative; display: flex; gap: 10px; align-items: flex-start;
   }
   @keyframes msgIn {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
   }
   .msg.mine {
-    align-self: flex-end;
-    flex-direction: row-reverse;
+    align-self: flex-end; flex-direction: row-reverse;
     background: linear-gradient(135deg, #6366f1, #a855f7);
     border: none;
   }
@@ -222,159 +168,321 @@
   }
   .msg.admin-msg.mine { background: linear-gradient(135deg, #b91c1c, #7c2d12); }
   .msg-avatar {
-    width: 32px; height: 32px;
-    border-radius: 50%;
+    width: 32px; height: 32px; border-radius: 50%;
     display: grid; place-items: center;
-    font-weight: 800;
-    font-size: 13px;
-    flex-shrink: 0;
-    color: #fff;
-    text-transform: uppercase;
+    font-weight: 800; font-size: 13px;
+    flex-shrink: 0; color: #fff; text-transform: uppercase;
   }
   .msg.admin-msg .msg-avatar { box-shadow: 0 0 0 2px #fbbf24; }
   .msg-body { min-width: 0; }
   .msg .author {
-    font-size: 11px;
-    font-weight: 700;
-    opacity: .85;
-    margin-bottom: 3px;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    font-size: 11px; font-weight: 700;
+    opacity: .85; margin-bottom: 3px;
+    text-transform: uppercase; letter-spacing: .05em;
+    display: flex; align-items: center; gap: 6px;
   }
   .msg .author .tag-admin {
-    font-size: 9px;
-    padding: 1px 6px;
-    background: #fbbf24;
-    color: #7c2d12;
-    border-radius: 4px;
-    font-weight: 800;
+    font-size: 9px; padding: 1px 6px;
+    background: #fbbf24; color: #7c2d12;
+    border-radius: 4px; font-weight: 800;
   }
   .msg .content { font-size: 14px; line-height: 1.5; word-break: break-word; }
-  .msg .time {
-    font-size: 10px;
-    opacity: .5;
-    margin-top: 4px;
-    text-align: right;
-  }
+  .msg .time { font-size: 10px; opacity: .5; margin-top: 4px; text-align: right; }
   .msg-delete {
-    position: absolute;
-    top: 6px; right: 8px;
-    background: rgba(0,0,0,.4);
-    color: #fff;
-    border: none;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    font-size: 12px;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity .2s;
-    display: grid; place-items: center;
-    font-family: inherit;
+    position: absolute; top: 6px; right: 8px;
+    background: rgba(0,0,0,.4); color: #fff;
+    border: none; width: 22px; height: 22px;
+    border-radius: 50%; font-size: 12px;
+    cursor: pointer; opacity: 0; transition: opacity .2s;
+    display: grid; place-items: center; font-family: inherit;
   }
   .msg:hover .msg-delete { opacity: 1; }
   .msg-delete:hover { background: #ef4444; }
 
   form {
-    display: flex;
-    gap: 10px;
-    padding: 16px 24px;
+    display: flex; gap: 10px; padding: 16px 24px;
     background: rgba(255,255,255,.06);
     border-top: 1px solid rgba(255,255,255,.1);
-    backdrop-filter: blur(20px);
-    align-items: center;
+    backdrop-filter: blur(20px); align-items: center;
   }
   #message {
-    flex: 1;
-    padding: 12px 16px;
+    flex: 1; padding: 12px 16px;
     background: rgba(255,255,255,.08);
     border: 1.5px solid rgba(255,255,255,.15);
-    border-radius: 12px;
-    color: #fff;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
+    border-radius: 12px; color: #fff;
+    font-size: 14px; font-family: inherit; outline: none;
   }
   #message:focus { border-color: #6366f1; }
   #message:disabled { opacity: .5; cursor: not-allowed; }
   .emoji-btn {
-    width: 44px; height: 44px;
-    border-radius: 12px;
+    width: 44px; height: 44px; border-radius: 12px;
     background: rgba(255,255,255,.08);
     border: 1.5px solid rgba(255,255,255,.15);
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: all .2s;
+    color: #fff; font-size: 20px;
+    cursor: pointer; flex-shrink: 0; transition: all .2s;
   }
   .emoji-btn:hover { background: rgba(255,255,255,.15); }
   .emoji-picker {
-    position: absolute;
-    bottom: 90px; right: 24px;
+    position: absolute; bottom: 90px; right: 24px;
     background: #1e1b4b;
     border: 1px solid rgba(255,255,255,.15);
-    border-radius: 14px;
-    padding: 12px;
-    display: none;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
-    box-shadow: 0 12px 40px rgba(0,0,0,.5);
-    z-index: 100;
-    max-width: 380px;
-    max-height: 300px;
+    border-radius: 14px; padding: 12px;
+    display: none; grid-template-columns: repeat(8, 1fr);
+    gap: 6px; box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    z-index: 100; max-width: 380px; max-height: 300px;
     overflow-y: auto;
   }
   .emoji-picker.open { display: grid; }
   .emoji-picker span {
-    font-size: 22px;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 6px;
-    text-align: center;
+    font-size: 22px; cursor: pointer; padding: 4px;
+    border-radius: 6px; text-align: center;
     transition: background .15s;
   }
   .emoji-picker span:hover { background: rgba(255,255,255,.1); }
   button[type="submit"] {
-    padding: 0 24px;
-    height: 44px;
+    padding: 0 24px; height: 44px;
     background: linear-gradient(135deg, #6366f1, #a855f7);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 14px;
-    font-family: inherit;
-    cursor: pointer;
-    transition: transform .15s;
-    flex-shrink: 0;
+    color: #fff; border: none; border-radius: 12px;
+    font-weight: 700; font-size: 14px;
+    font-family: inherit; cursor: pointer;
+    transition: transform .15s; flex-shrink: 0;
   }
   button[type="submit"]:hover:not(:disabled) { transform: translateY(-2px); }
   button[type="submit"]:disabled { opacity: .5; cursor: not-allowed; }
   .empty {
-    text-align: center;
-    color: rgba(255,255,255,.4);
-    margin-top: 40px;
-    font-size: 14px;
+    text-align: center; color: rgba(255,255,255,.4);
+    margin-top: 40px; font-size: 14px;
   }
 
   .admin-popup {
-    position: fixed;
-    bottom: 100px; right: 24px;
+    position: fixed; bottom: 100px; right: 24px;
     background: linear-gradient(135deg, #7c2d12, #b91c1c);
     border: 1px solid #fbbf24;
-    padding: 12px 18px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
+    padding: 12px 18px; border-radius: 12px;
+    font-size: 13px; font-weight: 600;
     box-shadow: 0 8px 24px rgba(0,0,0,.5);
-    display: none;
-    animation: pop .3s ease;
-    z-index: 500;
+    display: none; animation: pop .3s ease; z-index: 500;
   }
   .admin-popup.show { display: block; }
+
+  /* ============ PANNEAU ADMIN ============ */
+  .admin-panel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 420px;
+    max-width: 100vw;
+    background: linear-gradient(135deg, #1a1f3a 0%, #2a1f3a 100%);
+    border-left: 1px solid rgba(255,255,255,.1);
+    box-shadow: -10px 0 40px rgba(0,0,0,.5);
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.16,1,.3,1);
+    overflow: hidden;
+  }
+  .admin-panel.open { transform: translateX(0); }
+
+  .admin-panel-header {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #7c2d12, #b91c1c);
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .admin-panel-header h2 {
+    font-size: 17px;
+    font-weight: 800;
+    flex: 1;
+  }
+  .admin-panel-close {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.1);
+    border: none; color: #fff;
+    font-size: 16px; cursor: pointer;
+    display: grid; place-items: center;
+    font-family: inherit;
+  }
+  .admin-panel-close:hover { background: rgba(255,255,255,.2); }
+
+  .admin-panel-tabs {
+    display: flex;
+    padding: 0 16px;
+    gap: 4px;
+    background: rgba(0,0,0,.2);
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .admin-panel-tab {
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,.5);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all .2s;
+  }
+  .admin-panel-tab.active {
+    color: #fff;
+    border-bottom-color: #fbbf24;
+  }
+
+  .admin-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .admin-section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: rgba(255,255,255,.4);
+    font-weight: 700;
+    padding: 8px 4px;
+  }
+
+  .user-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: all .2s;
+  }
+  .user-row:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.15); }
+  .user-row.banned { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.3); }
+
+  .user-row-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 16px;
+    text-transform: uppercase;
+    color: #fff; flex-shrink: 0;
+  }
+  .user-row-info { flex: 1; min-width: 0; }
+  .user-row-name {
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .user-row-name .tag {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .user-row-name .tag.admin {
+    background: linear-gradient(135deg, #ef4444, #f59e0b);
+    color: #fff;
+  }
+  .user-row-name .tag.banned {
+    background: #ef4444;
+    color: #fff;
+  }
+  .user-row-meta {
+    font-size: 11px;
+    color: rgba(255,255,255,.5);
+    margin-top: 2px;
+  }
+
+  .user-row-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .admin-action-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .2s;
+  }
+  .admin-action-btn.ban {
+    background: rgba(239,68,68,.15);
+    color: #ef4444;
+    border: 1px solid rgba(239,68,68,.3);
+  }
+  .admin-action-btn.ban:hover { background: #ef4444; color: #fff; }
+  .admin-action-btn.unban {
+    background: rgba(16,185,129,.15);
+    color: #10b981;
+    border: 1px solid rgba(16,185,129,.3);
+  }
+  .admin-action-btn.unban:hover { background: #10b981; color: #fff; }
+  .admin-action-btn:disabled { opacity: .3; cursor: not-allowed; }
+
+  .admin-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255,255,255,.4);
+    font-size: 13px;
+  }
+
+  .admin-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .admin-stat {
+    padding: 16px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .admin-stat-num {
+    font-size: 24px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .admin-stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: rgba(255,255,255,.5);
+    font-weight: 700;
+    margin-top: 4px;
+  }
+
+  /* Backdrop */
+  .admin-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    backdrop-filter: blur(4px);
+    z-index: 850;
+    display: none;
+  }
+  .admin-backdrop.show { display: block; }
+
+  @media (max-width: 600px) {
+    .admin-panel { width: 100%; }
+    .admin-panel-tabs { overflow-x: auto; }
+  }
 </style>
 </head>
 <body>
@@ -416,6 +524,7 @@
       <div class="user-avatar-small" id="myAvatar">?</div>
       <span id="myPseudo">—</span>
       <span class="admin-badge" id="adminBadge" style="display:none;">🛡️ Admin</span>
+      <button type="button" class="admin-btn" id="adminPanelBtn" style="display:none;">⚙️ Panneau</button>
       <button type="button" class="logout-btn" id="logoutBtn">Déconnexion</button>
     </div>
   </header>
@@ -431,6 +540,24 @@
   </form>
 </div>
 
+<!-- ============ PANNEAU ADMIN ============ -->
+<div class="admin-backdrop" id="adminBackdrop"></div>
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-panel-header">
+    <h2>🛡️ Panneau administrateur</h2>
+    <button type="button" class="admin-panel-close" id="adminPanelClose">✕</button>
+  </div>
+
+  <div class="admin-panel-tabs">
+    <button type="button" class="admin-panel-tab active" data-tab="users">👥 Utilisateurs</button>
+    <button type="button" class="admin-panel-tab" data-tab="stats">📊 Statistiques</button>
+  </div>
+
+  <div class="admin-panel-body" id="adminPanelBody">
+    <!-- Rempli par JS -->
+  </div>
+</div>
+
 <div class="emoji-picker" id="emojiPicker"></div>
 <div class="admin-popup" id="adminPopup"></div>
 
@@ -444,7 +571,6 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ==================== HELPERS ====================
 function hashPassword(pwd) {
-  // Hash simple pour ne pas stocker en clair
   return btoa(unescape(encodeURIComponent("mm#" + pwd)));
 }
 
@@ -452,6 +578,12 @@ function escapeHtml(s) {
   const d = document.createElement("div");
   d.textContent = String(s ?? "");
   return d.innerHTML;
+}
+
+function formatDate(ts) {
+  if (!ts) return "—";
+  const d = new Date(ts);
+  return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
 }
 
 const COLORS = ["#6366f1", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981", "#06b6d4", "#ef4444", "#84cc16", "#f97316", "#a855f7"];
@@ -463,6 +595,8 @@ function colorFor(name) {
 
 // ==================== ÉTAT ====================
 let CURRENT_USER = null;
+let ADMIN_TAB = "users";
+let ALL_USERS = [];
 
 // ==================== DOM ====================
 const authScreen = document.getElementById("authScreen");
@@ -476,6 +610,7 @@ const regError = document.getElementById("regError");
 const myAvatar = document.getElementById("myAvatar");
 const myPseudoEl = document.getElementById("myPseudo");
 const adminBadge = document.getElementById("adminBadge");
+const adminPanelBtn = document.getElementById("adminPanelBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const messagesEl = document.getElementById("messages");
 const form = document.getElementById("form");
@@ -483,6 +618,10 @@ const messageInput = document.getElementById("message");
 const emojiBtn = document.getElementById("emojiBtn");
 const emojiPicker = document.getElementById("emojiPicker");
 const adminPopup = document.getElementById("adminPopup");
+const adminPanel = document.getElementById("adminPanel");
+const adminBackdrop = document.getElementById("adminBackdrop");
+const adminPanelClose = document.getElementById("adminPanelClose");
+const adminPanelBody = document.getElementById("adminPanelBody");
 
 // ==================== AUTH ====================
 tabLogin.addEventListener("click", () => {
@@ -498,7 +637,6 @@ tabRegister.addEventListener("click", () => {
   loginForm.classList.remove("active");
 });
 
-// -------- INSCRIPTION --------
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   regError.textContent = "";
@@ -513,11 +651,17 @@ registerForm.addEventListener("submit", async (e) => {
   if (pwd.length < 4) { regError.textContent = "Mot de passe trop court (min 4)."; return; }
   if (pwd !== pwd2) { regError.textContent = "Les mots de passe ne correspondent pas."; return; }
 
-  // Vérifier si le pseudo existe
-  const { data: existing } = await sb.from("chat_users").select("id").eq("pseudo", pseudo).maybeSingle();
-  if (existing) { regError.textContent = "Ce pseudo est déjà pris."; return; }
+  // Vérifier si le pseudo existe (même banni)
+  const { data: existing } = await sb.from("chat_users").select("id, is_banned").eq("pseudo", pseudo).maybeSingle();
+  if (existing) {
+    if (existing.is_banned) {
+      regError.textContent = "Ce pseudo est bloqué par un administrateur.";
+    } else {
+      regError.textContent = "Ce pseudo est déjà pris.";
+    }
+    return;
+  }
 
-  // Créer le compte
   const { data, error } = await sb.from("chat_users").insert({
     pseudo,
     password_hash: hashPassword(pwd),
@@ -526,13 +670,11 @@ registerForm.addEventListener("submit", async (e) => {
 
   if (error) { regError.textContent = "Erreur : " + error.message; return; }
 
-  // Connecter directement
   sessionStorage.setItem("chat_user", JSON.stringify(data));
   CURRENT_USER = data;
   enterChat();
 });
 
-// -------- CONNEXION --------
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   loginError.textContent = "";
@@ -542,21 +684,21 @@ loginForm.addEventListener("submit", async (e) => {
 
   if (!pseudo || !pwd) { loginError.textContent = "Remplis tous les champs."; return; }
 
-  const { data, error } = await sb.from("chat_users")
-    .select("*")
-    .eq("pseudo", pseudo)
-    .maybeSingle();
+  const { data, error } = await sb.from("chat_users").select("*").eq("pseudo", pseudo).maybeSingle();
 
   if (error || !data) { loginError.textContent = "Pseudo ou mot de passe incorrect."; return; }
   if (data.password_hash !== hashPassword(pwd)) { loginError.textContent = "Pseudo ou mot de passe incorrect."; return; }
-  if (data.is_banned) { loginError.textContent = "Tu es banni du chat."; return; }
+
+  if (data.is_banned) {
+    loginError.textContent = "🚫 Ton compte a été bloqué par un administrateur.";
+    return;
+  }
 
   sessionStorage.setItem("chat_user", JSON.stringify(data));
   CURRENT_USER = data;
   enterChat();
 });
 
-// -------- DÉCONNEXION --------
 logoutBtn.addEventListener("click", () => {
   sessionStorage.removeItem("chat_user");
   CURRENT_USER = null;
@@ -575,6 +717,7 @@ function enterChat() {
   myAvatar.style.background = colorFor(CURRENT_USER.pseudo);
   myPseudoEl.textContent = CURRENT_USER.pseudo;
   adminBadge.style.display = CURRENT_USER.is_admin ? "inline-block" : "none";
+  adminPanelBtn.style.display = CURRENT_USER.is_admin ? "inline-block" : "none";
 
   loadMessages();
   messageInput.focus();
@@ -586,10 +729,7 @@ const EMOJIS = ["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","
 EMOJIS.forEach(em => {
   const s = document.createElement("span");
   s.textContent = em;
-  s.addEventListener("click", () => {
-    messageInput.value += em;
-    messageInput.focus();
-  });
+  s.addEventListener("click", () => { messageInput.value += em; messageInput.focus(); });
   emojiPicker.appendChild(s);
 });
 
@@ -605,14 +745,8 @@ document.addEventListener("click", (e) => {
 
 // ==================== CHARGER MESSAGES ====================
 async function loadMessages() {
-  const { data, error } = await sb
-    .from("messages")
-    .select("*")
-    .order("created_at", { ascending: true })
-    .limit(200);
-
+  const { data, error } = await sb.from("messages").select("*").order("created_at", { ascending: true }).limit(200);
   if (error) { console.error(error); return; }
-
   messagesEl.innerHTML = "";
   if (data.length === 0) {
     messagesEl.innerHTML = '<div class="empty">Aucun message. Sois le premier !</div>';
@@ -660,20 +794,17 @@ function renderMessage(msg) {
       await sb.from("messages").delete().eq("id", msg.id);
     });
   }
-
   messagesEl.appendChild(div);
 }
 
 function scrollBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
-// ==================== ENVOYER MESSAGE ====================
+// ==================== ENVOYER ====================
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!CURRENT_USER) return;
-
   const contenu = messageInput.value.trim();
   if (!contenu) return;
-
   messageInput.value = "";
 
   const { error } = await sb.from("messages").insert({
@@ -682,10 +813,7 @@ form.addEventListener("submit", async (e) => {
     user_id: CURRENT_USER.id,
   });
 
-  if (error) {
-    console.error(error);
-    alert("Erreur : " + error.message);
-  }
+  if (error) { console.error(error); alert("Erreur : " + error.message); }
   messageInput.focus();
 });
 
@@ -699,13 +827,26 @@ sb.channel("messages-live")
 
     const isMine = CURRENT_USER && payload.new.auteur.toLowerCase() === CURRENT_USER.pseudo.toLowerCase();
     const isAdminMsg = (payload.new.auteur || "").toLowerCase() === "admin";
-
     if (isAdminMsg && !isMine) showAdminPopup("🛡️ Message administrateur");
     if (!isMine) playNotif();
   })
   .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, (payload) => {
     const el = messagesEl.querySelector(`[data-id="${payload.old.id}"]`);
     if (el) el.remove();
+  })
+  .subscribe();
+
+// Écouter les bans en temps réel
+sb.channel("users-live")
+  .on("postgres_changes", { event: "UPDATE", schema: "public", table: "chat_users" }, (payload) => {
+    // Si c'est moi qui viens d'être banni
+    if (CURRENT_USER && payload.new.id === CURRENT_USER.id && payload.new.is_banned) {
+      alert("🚫 Ton compte vient d'être bloqué par un administrateur. Tu vas être déconnecté.");
+      sessionStorage.removeItem("chat_user");
+      CURRENT_USER = null;
+      chatContainer.style.display = "none";
+      authScreen.style.display = "flex";
+    }
   })
   .subscribe();
 
@@ -723,21 +864,211 @@ function playNotif() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain); gain.connect(ctx.destination);
-    osc.frequency.value = 800;
-    gain.gain.value = 0.05;
+    osc.frequency.value = 800; gain.gain.value = 0.05;
     osc.start();
     setTimeout(() => osc.stop(), 100);
     osc.onended = () => ctx.close();
   } catch(e) {}
 }
 
+// ==================== PANNEAU ADMIN ====================
+adminPanelBtn.addEventListener("click", () => {
+  openAdminPanel();
+});
+adminPanelClose.addEventListener("click", closeAdminPanel);
+adminBackdrop.addEventListener("click", closeAdminPanel);
+
+function openAdminPanel() {
+  adminPanel.classList.add("open");
+  adminBackdrop.classList.add("show");
+  refreshAdminData();
+}
+
+function closeAdminPanel() {
+  adminPanel.classList.remove("open");
+  adminBackdrop.classList.remove("show");
+}
+
+document.querySelectorAll(".admin-panel-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".admin-panel-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    ADMIN_TAB = tab.dataset.tab;
+    renderAdminPanel();
+  });
+});
+
+async function refreshAdminData() {
+  const { data: users } = await sb.from("chat_users").select("*").order("created_at", { ascending: false });
+  const { data: mails } = await sb.from("messages").select("auteur");
+
+  // Compter les messages par utilisateur
+  const counts = {};
+  (mails || []).forEach(m => { counts[m.auteur] = (counts[m.auteur] || 0) + 1; });
+
+  ALL_USERS = (users || []).map(u => ({ ...u, messageCount: counts[u.pseudo] || 0 }));
+  renderAdminPanel();
+}
+
+function renderAdminPanel() {
+  if (ADMIN_TAB === "users") renderAdminUsers();
+  else if (ADMIN_TAB === "stats") renderAdminStats();
+}
+
+function renderAdminUsers() {
+  const total = ALL_USERS.length;
+  const banned = ALL_USERS.filter(u => u.is_banned).length;
+
+  let html = `
+    <div class="admin-stats">
+      <div class="admin-stat">
+        <div class="admin-stat-num">${total}</div>
+        <div class="admin-stat-label">Utilisateurs</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num">${banned}</div>
+        <div class="admin-stat-label">Bannis</div>
+      </div>
+    </div>
+    <div class="admin-section-title">Liste des utilisateurs</div>
+  `;
+
+  if (ALL_USERS.length === 0) {
+    html += '<div class="admin-empty">Aucun utilisateur</div>';
+    adminPanelBody.innerHTML = html;
+    return;
+  }
+
+  ALL_USERS.forEach(u => {
+    const isMe = CURRENT_USER && u.id === CURRENT_USER.id;
+    const isAdmin = u.is_admin;
+    const isBanned = u.is_banned;
+    const color = colorFor(u.pseudo);
+
+    html += `
+      <div class="user-row ${isBanned ? 'banned' : ''}">
+        <div class="user-row-avatar" style="background:${color}">${escapeHtml(u.pseudo.charAt(0).toUpperCase())}</div>
+        <div class="user-row-info">
+          <div class="user-row-name">
+            ${escapeHtml(u.pseudo)}
+            ${isAdmin ? '<span class="tag admin">Admin</span>' : ''}
+            ${isBanned ? '<span class="tag banned">Banni</span>' : ''}
+          </div>
+          <div class="user-row-meta">${u.messageCount} message${u.messageCount > 1 ? 's' : ''} · Inscrit le ${formatDate(u.created_at)}</div>
+        </div>
+        <div class="user-row-actions">
+          ${isAdmin ? '' : (isBanned
+            ? `<button class="admin-action-btn unban" data-unban="${u.id}">✅ Débannir</button>`
+            : `<button class="admin-action-btn ban" data-ban="${u.id}" ${isMe ? 'disabled' : ''}>🚫 Bannir</button>`
+          )}
+        </div>
+      </div>
+    `;
+  });
+
+  adminPanelBody.innerHTML = html;
+
+  // Boutons bannir
+  adminPanelBody.querySelectorAll("[data-ban]").forEach(btn => {
+    btn.addEventListener("click", () => banUser(btn.dataset.ban));
+  });
+  adminPanelBody.querySelectorAll("[data-unban]").forEach(btn => {
+    btn.addEventListener("click", () => unbanUser(btn.dataset.unban));
+  });
+}
+
+async function banUser(userId) {
+  const user = ALL_USERS.find(u => String(u.id) === String(userId));
+  if (!user) return;
+
+  const reason = prompt(`🚫 Bannir ${user.pseudo} ?\nRaison (optionnelle) :`, "");
+  if (reason === null) return; // annulé
+
+  const { error } = await sb.from("chat_users")
+    .update({ is_banned: true, banned_at: new Date().toISOString(), banned_reason: reason || null })
+    .eq("id", userId);
+
+  if (error) { alert("Erreur : " + error.message); return; }
+
+  // Supprimer aussi ses messages (optionnel)
+  await sb.from("messages").delete().eq("auteur", user.pseudo);
+
+  // Supprimer son pseudo (pour empêcher la réutilisation)
+  // On ne supprime PAS la ligne pour garder la trace du ban
+  // Mais on bloque la reconnexion via is_banned
+
+  showAdminPopup(`🚫 ${user.pseudo} a été banni`);
+  await refreshAdminData();
+}
+
+async function unbanUser(userId) {
+  const user = ALL_USERS.find(u => String(u.id) === String(userId));
+  if (!user) return;
+
+  if (!confirm(`✅ Débannir ${user.pseudo} ?`)) return;
+
+  const { error } = await sb.from("chat_users")
+    .update({ is_banned: false, banned_at: null, banned_reason: null })
+    .eq("id", userId);
+
+  if (error) { alert("Erreur : " + error.message); return; }
+
+  showAdminPopup(`✅ ${user.pseudo} a été débanni`);
+  await refreshAdminData();
+}
+
+function renderAdminStats() {
+  const totalUsers = ALL_USERS.length;
+  const bannedUsers = ALL_USERS.filter(u => u.is_banned).length;
+  const adminUsers = ALL_USERS.filter(u => u.is_admin).length;
+  const totalMessages = ALL_USERS.reduce((s, u) => s + u.messageCount, 0);
+  const topUsers = [...ALL_USERS].sort((a, b) => b.messageCount - a.messageCount).slice(0, 5);
+
+  let html = `
+    <div class="admin-stats">
+      <div class="admin-stat"><div class="admin-stat-num">${totalUsers}</div><div class="admin-stat-label">Utilisateurs</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">${totalMessages}</div><div class="admin-stat-label">Messages</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">${bannedUsers}</div><div class="admin-stat-label">Bannis</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">${adminUsers}</div><div class="admin-stat-label">Admins</div></div>
+    </div>
+    <div class="admin-section-title">🏆 Top contributeurs</div>
+  `;
+
+  if (topUsers.length === 0) {
+    html += '<div class="admin-empty">Aucun message</div>';
+  } else {
+    topUsers.forEach((u, i) => {
+      const medal = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"][i];
+      html += `
+        <div class="user-row">
+          <div class="user-row-avatar" style="background:${colorFor(u.pseudo)}">${escapeHtml(u.pseudo.charAt(0).toUpperCase())}</div>
+          <div class="user-row-info">
+            <div class="user-row-name">${medal} ${escapeHtml(u.pseudo)}</div>
+            <div class="user-row-meta">${u.messageCount} message${u.messageCount > 1 ? 's' : ''}</div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  adminPanelBody.innerHTML = html;
+}
+
 // ==================== SESSION AUTO ====================
-(function init() {
+(async function init() {
   const saved = sessionStorage.getItem("chat_user");
   if (saved) {
     try {
-      CURRENT_USER = JSON.parse(saved);
-      enterChat();
+      const u = JSON.parse(saved);
+      // Vérifier que l'utilisateur existe toujours et n'est pas banni
+      const { data } = await sb.from("chat_users").select("*").eq("id", u.id).maybeSingle();
+      if (data && !data.is_banned) {
+        CURRENT_USER = data;
+        sessionStorage.setItem("chat_user", JSON.stringify(data));
+        enterChat();
+      } else {
+        sessionStorage.removeItem("chat_user");
+      }
     } catch (e) {
       sessionStorage.removeItem("chat_user");
     }

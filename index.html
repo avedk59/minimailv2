@@ -147,7 +147,6 @@
   }
   .logout-btn:hover { background: rgba(239,68,68,.25); }
 
-  /* Annonce épinglée */
   .pinned-announcement {
     background: linear-gradient(135deg, #7c2d12, #b91c1c);
     border-bottom: 2px solid #fbbf24;
@@ -224,6 +223,21 @@
   }
   .msg .content { font-size: 14px; line-height: 1.5; word-break: break-word; }
   .msg .time { font-size: 10px; opacity: .5; margin-top: 4px; text-align: right; }
+
+  /* Image dans un message */
+  .msg-image {
+    max-width: 280px;
+    max-height: 280px;
+    border-radius: 10px;
+    margin-top: 6px;
+    cursor: pointer;
+    transition: transform .2s;
+    display: block;
+    object-fit: cover;
+  }
+  .msg-image:hover { transform: scale(1.02); }
+  .msg.mine .msg-image { margin-left: auto; }
+
   .msg-delete {
     position: absolute; top: 6px; right: 8px;
     background: rgba(0,0,0,.4); color: #fff;
@@ -250,7 +264,7 @@
   }
   #message:focus { border-color: #6366f1; }
   #message:disabled { opacity: .5; cursor: not-allowed; }
-  .emoji-btn {
+  .emoji-btn, .photo-btn {
     width: 44px; height: 44px; border-radius: 12px;
     background: rgba(255,255,255,.08);
     border: 1.5px solid rgba(255,255,255,.15);
@@ -260,7 +274,7 @@
     padding: 0; line-height: 1;
     overflow: hidden;
   }
-  .emoji-btn:hover { background: rgba(255,255,255,.15); }
+  .emoji-btn:hover, .photo-btn:hover { background: rgba(255,255,255,.15); }
   .emoji-picker {
     position: absolute; bottom: 90px; right: 24px;
     background: #1e1b4b; border: 1px solid rgba(255,255,255,.15);
@@ -396,6 +410,96 @@
     color: rgba(255,255,255,.5);
     margin-top: 16px;
   }
+
+  /* ============ MODAL IMAGE (zoom) ============ */
+  .image-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.92);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1200;
+    cursor: zoom-out;
+  }
+  .image-modal.open { display: flex; }
+  .image-modal img {
+    max-width: 95vw;
+    max-height: 95vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.8);
+    animation: pop .3s cubic-bezier(.16,1,.3,1);
+  }
+  .image-modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    border: none; color: #fff;
+    font-size: 20px; cursor: pointer;
+    display: grid; place-items: center;
+    font-family: inherit;
+    transition: all .2s;
+  }
+  .image-modal-close:hover { background: rgba(255,255,255,.3); }
+
+  /* Prévisualisation de l'image avant envoi */
+  .image-preview {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(200px);
+    background: #1e1b4b;
+    border: 2px solid rgba(99,102,241,.5);
+    border-radius: 16px;
+    padding: 12px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.7);
+    z-index: 500;
+    transition: transform .35s cubic-bezier(.16,1,.3,1);
+    max-width: 90vw;
+  }
+  .image-preview.show {
+    transform: translateX(-50%) translateY(0);
+    display: flex;
+  }
+  .image-preview img {
+    max-width: 250px;
+    max-height: 250px;
+    border-radius: 10px;
+    object-fit: cover;
+    align-self: center;
+  }
+  .image-preview-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  .image-preview-actions button {
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: all .2s;
+  }
+  .image-preview-actions .btn-cancel-img {
+    background: rgba(239,68,68,.15);
+    color: #ef4444;
+    border: 1px solid rgba(239,68,68,.3);
+  }
+  .image-preview-actions .btn-cancel-img:hover { background: #ef4444; color: #fff; }
+  .image-preview-actions .btn-send-img {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: #fff;
+  }
+  .image-preview-actions .btn-send-img:hover { transform: translateY(-1px); }
 
   /* ============ PANNEAU ADMIN ============ */
   .admin-panel {
@@ -611,15 +715,11 @@
      RESPONSIVE MOBILE
      ============================================================ */
   @media (max-width: 768px) {
-
-    /* Header compact */
     header {
       padding: 12px 16px;
       gap: 8px;
     }
-    header h1 {
-      font-size: 15px;
-    }
+    header h1 { font-size: 15px; }
     .user-info {
       font-size: 12px;
       padding: 5px 10px 5px 5px;
@@ -637,15 +737,11 @@
       font-size: 10px;
       padding: 2px 8px;
     }
-
-    /* Annonce épinglée */
     .pinned-announcement {
       padding: 10px 16px;
       font-size: 13px;
     }
     .pinned-announcement .pin-icon { font-size: 16px; }
-
-    /* Messages */
     #messages {
       padding: 14px;
       gap: 10px;
@@ -659,20 +755,17 @@
       width: 28px; height: 28px;
       font-size: 12px;
     }
-    .msg .content {
-      font-size: 13px;
+    .msg .content { font-size: 13px; }
+    .msg .author { font-size: 10px; flex-wrap: wrap; }
+    .msg-image {
+      max-width: 220px;
+      max-height: 220px;
     }
-    .msg .author {
-      font-size: 10px;
-      flex-wrap: wrap;
-    }
-
-    /* Barre d'envoi */
     form {
       padding: 10px 12px;
       gap: 6px;
     }
-    .emoji-btn {
+    .emoji-btn, .photo-btn {
       width: 40px; height: 40px;
       font-size: 18px;
     }
@@ -686,8 +779,6 @@
       height: 40px;
       font-size: 13px;
     }
-
-    /* Modale auth */
     .auth-card {
       padding: 28px 22px;
       max-width: 100%;
@@ -697,11 +788,7 @@
       padding: 12px 14px;
       font-size: 14px;
     }
-
-    /* Modal avatar */
-    .avatar-modal-content {
-      padding: 24px 20px;
-    }
+    .avatar-modal-content { padding: 24px 20px; }
     .avatar-preview-large {
       width: 100px; height: 100px;
       font-size: 40px;
@@ -710,14 +797,8 @@
       padding: 10px 14px;
       font-size: 12px;
     }
-
-    /* Panneau admin plein écran sur mobile */
-    .admin-panel {
-      width: 100% !important;
-    }
-    .admin-panel-header {
-      padding: 16px;
-    }
+    .admin-panel { width: 100% !important; }
+    .admin-panel-header { padding: 16px; }
     .admin-panel-header h2 { font-size: 15px; }
     .admin-panel-tabs {
       overflow-x: auto;
@@ -739,23 +820,17 @@
     }
     .user-row-name { font-size: 13px; }
     .user-row-meta { font-size: 10px; }
-    .user-row-actions {
-      gap: 4px;
-    }
+    .user-row-actions { gap: 4px; }
     .admin-action-btn {
       padding: 5px 8px;
       font-size: 9.5px;
     }
-
-    /* Popup globale */
     .global-popup {
       top: 60px;
       padding: 14px 20px;
       font-size: 14px;
       max-width: 90vw;
     }
-
-    /* Popup admin */
     .admin-popup {
       bottom: 80px;
       right: 12px;
@@ -764,8 +839,6 @@
       padding: 10px 14px;
       max-width: none;
     }
-
-    /* Emoji picker */
     .emoji-picker {
       right: 12px;
       left: 12px;
@@ -774,9 +847,12 @@
       max-height: 220px;
     }
     .emoji-picker span { font-size: 20px; }
+    .image-preview img {
+      max-width: 180px;
+      max-height: 180px;
+    }
   }
 
-  /* === Pour très petits écrans === */
   @media (max-width: 400px) {
     header h1 {
       font-size: 13px;
@@ -791,7 +867,6 @@
     }
   }
 
-  /* === Améliore le touch sur mobile === */
   @media (hover: none) and (pointer: coarse) {
     .msg-delete {
       opacity: 1;
@@ -801,7 +876,7 @@
       min-height: 32px;
       padding: 8px 12px;
     }
-    .emoji-btn, button[type="submit"] {
+    .emoji-btn, .photo-btn, button[type="submit"] {
       min-height: 42px;
     }
   }
@@ -849,7 +924,6 @@
     </div>
   </header>
 
-  <!-- Annonce épinglée -->
   <div class="pinned-announcement" id="pinnedAnnouncement">
     <span class="pin-icon">📢</span>
     <div class="pin-content" id="pinnedContent"></div>
@@ -862,6 +936,8 @@
 
   <form id="form">
     <button type="button" class="emoji-btn" id="emojiBtn" title="Émojis">😀</button>
+    <button type="button" class="photo-btn" id="photoBtn" title="Envoyer une photo">📷</button>
+    <input type="file" id="photoInput" accept="image/*" hidden />
     <input type="text" id="message" placeholder="Écris un message..." maxlength="500" required autocomplete="off" />
     <button type="submit">Envoyer</button>
   </form>
@@ -894,6 +970,21 @@
       <button type="button" class="btn-cancel" id="avatarCancelBtn">Annuler</button>
     </div>
     <p class="avatar-hint">Formats acceptés : JPG, PNG, GIF · Max 2 Mo</p>
+  </div>
+</div>
+
+<!-- Modal image plein écran -->
+<div class="image-modal" id="imageModal">
+  <button type="button" class="image-modal-close" id="imageModalClose">✕</button>
+  <img id="imageModalImg" src="" alt="Image" />
+</div>
+
+<!-- Prévisualisation photo avant envoi -->
+<div class="image-preview" id="imagePreview">
+  <img id="imagePreviewImg" src="" alt="Aperçu" />
+  <div class="image-preview-actions">
+    <button type="button" class="btn-cancel-img" id="imageCancelBtn">❌ Annuler</button>
+    <button type="button" class="btn-send-img" id="imageSendBtn">📤 Envoyer</button>
   </div>
 </div>
 
@@ -965,6 +1056,7 @@ let ADMIN_TAB = "users";
 let ALL_USERS = [];
 let CHAT_SETTINGS = { pinned_message: "", chat_locked: "false", global_popup: "", global_popup_at: "0" };
 let POPUP_SHOWN_AT = 0;
+let pendingImage = null;
 
 // ==================== DOM ====================
 const authScreen = document.getElementById("authScreen");
@@ -998,6 +1090,13 @@ const globalPopup = document.getElementById("globalPopup");
 const avatarModal = document.getElementById("avatarModal");
 const avatarPreview = document.getElementById("avatarPreview");
 const avatarFileInput = document.getElementById("avatarFileInput");
+const photoBtn = document.getElementById("photoBtn");
+const photoInput = document.getElementById("photoInput");
+const imageModal = document.getElementById("imageModal");
+const imageModalImg = document.getElementById("imageModalImg");
+const imageModalClose = document.getElementById("imageModalClose");
+const imagePreview = document.getElementById("imagePreview");
+const imagePreviewImg = document.getElementById("imagePreviewImg");
 
 // ==================== AUTH ====================
 tabLogin.addEventListener("click", () => {
@@ -1104,6 +1203,97 @@ document.addEventListener("click", (e) => {
   }
 });
 
+// ==================== ENVOI DE PHOTOS ====================
+photoBtn.addEventListener("click", () => {
+  photoInput.click();
+});
+
+photoInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (file.size > 3 * 1024 * 1024) {
+    alert("⚠️ Image trop lourde (max 3 Mo).");
+    e.target.value = "";
+    return;
+  }
+  if (!file.type.startsWith("image/")) {
+    alert("⚠️ Ce fichier n'est pas une image.");
+    e.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    pendingImage = ev.target.result;
+    imagePreviewImg.src = pendingImage;
+    imagePreview.classList.add("show");
+  };
+  reader.readAsDataURL(file);
+  e.target.value = "";
+});
+
+document.getElementById("imageCancelBtn").addEventListener("click", () => {
+  pendingImage = null;
+  imagePreview.classList.remove("show");
+  imagePreviewImg.src = "";
+});
+
+document.getElementById("imageSendBtn").addEventListener("click", async () => {
+  if (!pendingImage || !CURRENT_USER) return;
+
+  if (isMuted(CURRENT_USER)) {
+    alert(`⏱️ Tu es muté encore ${mutedTimeLeft(CURRENT_USER)}.`);
+    return;
+  }
+  if (CHAT_SETTINGS.chat_locked === "true" && !CURRENT_USER.is_admin) {
+    alert("🔒 Le chat est verrouillé par un administrateur.");
+    return;
+  }
+
+  const contenu = messageInput.value.trim();
+  messageInput.value = "";
+
+  const { error } = await sb.from("messages").insert({
+    auteur: CURRENT_USER.pseudo,
+    contenu: contenu || "",
+    user_id: CURRENT_USER.id,
+    image: pendingImage,
+  });
+
+  if (error) {
+    console.error(error);
+    alert("Erreur : " + error.message);
+    return;
+  }
+
+  pendingImage = null;
+  imagePreview.classList.remove("show");
+  imagePreviewImg.src = "";
+});
+
+// ==================== MODAL IMAGE ====================
+function openImageModal(src) {
+  imageModalImg.src = src;
+  imageModal.classList.add("open");
+}
+
+function closeImageModal() {
+  imageModal.classList.remove("open");
+  imageModalImg.src = "";
+}
+
+imageModalClose.addEventListener("click", closeImageModal);
+imageModal.addEventListener("click", (e) => {
+  if (e.target === imageModal || e.target === imageModalImg) closeImageModal();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && imageModal.classList.contains("open")) {
+    closeImageModal();
+  }
+});
+
 // ==================== CHARGER LES SETTINGS ====================
 async function loadSettings() {
   const { data, error } = await sb.from("chat_settings").select("*");
@@ -1182,6 +1372,10 @@ function renderMessage(msg) {
     ? `<img src="${authorAvatar}" alt="${escapeHtml(msg.auteur)}" />`
     : escapeHtml((msg.auteur || "?").charAt(0).toUpperCase());
 
+  const imageHTML = msg.image
+    ? `<img class="msg-image" src="${msg.image}" alt="Photo" data-img="${msg.image}" />`
+    : "";
+
   div.innerHTML = `
     <div class="msg-avatar" style="background:${color}">${avatarHTML}</div>
     <div class="msg-body">
@@ -1189,7 +1383,8 @@ function renderMessage(msg) {
         ${escapeHtml(msg.auteur)}
         ${isAdminMsg ? '<span class="tag-admin">Admin</span>' : ''}
       </div>
-      <div class="content">${escapeHtml(msg.contenu)}</div>
+      ${msg.contenu ? `<div class="content">${escapeHtml(msg.contenu)}</div>` : ''}
+      ${imageHTML}
       <div class="time">${time}</div>
     </div>
     ${canDelete ? '<button class="msg-delete" title="Supprimer">✕</button>' : ''}
@@ -1204,12 +1399,21 @@ function renderMessage(msg) {
       await sb.from("messages").delete().eq("id", msg.id);
     });
   }
+
+  const imgEl = div.querySelector(".msg-image");
+  if (imgEl) {
+    imgEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openImageModal(imgEl.src);
+    });
+  }
+
   messagesEl.appendChild(div);
 }
 
 function scrollBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
-// ==================== ENVOYER ====================
+// ==================== ENVOYER (texte seulement) ====================
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!CURRENT_USER) return;
@@ -1236,6 +1440,7 @@ form.addEventListener("submit", async (e) => {
     auteur: CURRENT_USER.pseudo,
     contenu,
     user_id: CURRENT_USER.id,
+    image: null,
   });
 
   if (error) { console.error(error); alert("Erreur : " + error.message); }

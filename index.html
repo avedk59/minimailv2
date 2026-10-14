@@ -607,8 +607,203 @@
   }
   .admin-backdrop.show { display: block; }
 
-  @media (max-width: 600px) {
-    .admin-panel { width: 100%; }
+  /* ============================================================
+     RESPONSIVE MOBILE
+     ============================================================ */
+  @media (max-width: 768px) {
+
+    /* Header compact */
+    header {
+      padding: 12px 16px;
+      gap: 8px;
+    }
+    header h1 {
+      font-size: 15px;
+    }
+    .user-info {
+      font-size: 12px;
+      padding: 5px 10px 5px 5px;
+      gap: 6px;
+    }
+    .user-avatar-small {
+      width: 22px; height: 22px;
+      font-size: 10px;
+    }
+    .admin-btn, .logout-btn {
+      font-size: 10px;
+      padding: 5px 8px;
+    }
+    .lock-badge {
+      font-size: 10px;
+      padding: 2px 8px;
+    }
+
+    /* Annonce épinglée */
+    .pinned-announcement {
+      padding: 10px 16px;
+      font-size: 13px;
+    }
+    .pinned-announcement .pin-icon { font-size: 16px; }
+
+    /* Messages */
+    #messages {
+      padding: 14px;
+      gap: 10px;
+    }
+    .msg {
+      max-width: 85%;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    .msg-avatar {
+      width: 28px; height: 28px;
+      font-size: 12px;
+    }
+    .msg .content {
+      font-size: 13px;
+    }
+    .msg .author {
+      font-size: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Barre d'envoi */
+    form {
+      padding: 10px 12px;
+      gap: 6px;
+    }
+    .emoji-btn {
+      width: 40px; height: 40px;
+      font-size: 18px;
+    }
+    #message {
+      padding: 10px 14px;
+      font-size: 14px;
+      border-radius: 10px;
+    }
+    button[type="submit"] {
+      padding: 0 16px;
+      height: 40px;
+      font-size: 13px;
+    }
+
+    /* Modale auth */
+    .auth-card {
+      padding: 28px 22px;
+      max-width: 100%;
+    }
+    .auth-title { font-size: 20px; }
+    .auth-form input {
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+
+    /* Modal avatar */
+    .avatar-modal-content {
+      padding: 24px 20px;
+    }
+    .avatar-preview-large {
+      width: 100px; height: 100px;
+      font-size: 40px;
+    }
+    .avatar-modal-actions button {
+      padding: 10px 14px;
+      font-size: 12px;
+    }
+
+    /* Panneau admin plein écran sur mobile */
+    .admin-panel {
+      width: 100% !important;
+    }
+    .admin-panel-header {
+      padding: 16px;
+    }
+    .admin-panel-header h2 { font-size: 15px; }
+    .admin-panel-tabs {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .admin-panel-tab {
+      font-size: 12px;
+      padding: 10px 12px;
+      white-space: nowrap;
+    }
+    .admin-panel-body { padding: 12px; }
+    .user-row {
+      padding: 10px 12px;
+      gap: 10px;
+    }
+    .user-row-avatar {
+      width: 36px; height: 36px;
+      font-size: 14px;
+    }
+    .user-row-name { font-size: 13px; }
+    .user-row-meta { font-size: 10px; }
+    .user-row-actions {
+      gap: 4px;
+    }
+    .admin-action-btn {
+      padding: 5px 8px;
+      font-size: 9.5px;
+    }
+
+    /* Popup globale */
+    .global-popup {
+      top: 60px;
+      padding: 14px 20px;
+      font-size: 14px;
+      max-width: 90vw;
+    }
+
+    /* Popup admin */
+    .admin-popup {
+      bottom: 80px;
+      right: 12px;
+      left: 12px;
+      font-size: 12px;
+      padding: 10px 14px;
+      max-width: none;
+    }
+
+    /* Emoji picker */
+    .emoji-picker {
+      right: 12px;
+      left: 12px;
+      max-width: none;
+      grid-template-columns: repeat(7, 1fr);
+      max-height: 220px;
+    }
+    .emoji-picker span { font-size: 20px; }
+  }
+
+  /* === Pour très petits écrans === */
+  @media (max-width: 400px) {
+    header h1 {
+      font-size: 13px;
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .msg { max-width: 92%; }
+    .emoji-picker {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  /* === Améliore le touch sur mobile === */
+  @media (hover: none) and (pointer: coarse) {
+    .msg-delete {
+      opacity: 1;
+      background: rgba(0,0,0,.5);
+    }
+    .admin-action-btn {
+      min-height: 32px;
+      padding: 8px 12px;
+    }
+    .emoji-btn, button[type="submit"] {
+      min-height: 42px;
+    }
   }
 </style>
 </head>
@@ -751,7 +946,6 @@ function colorFor(name) {
   return COLORS[Math.abs(hash) % COLORS.length];
 }
 
-// Rend un avatar (image ou initiale) dans un élément
 function renderAvatarInElement(el, pseudo, avatarData) {
   if (!el) return;
   if (avatarData) {
@@ -885,7 +1079,6 @@ async function enterChat() {
   messageInput.focus();
 }
 
-// Charge tous les utilisateurs (pour avoir leurs avatars)
 async function loadAllUsersPublic() {
   const { data } = await sb.from("chat_users").select("id, pseudo, avatar, is_admin");
   ALL_USERS = data || [];
@@ -983,7 +1176,6 @@ function renderMessage(msg) {
   const color = isAdminMsg ? "#fbbf24" : colorFor(msg.auteur);
   const canDelete = isMine || (CURRENT_USER && CURRENT_USER.is_admin);
 
-  // Chercher l'avatar de l'auteur
   const authorUser = ALL_USERS.find(u => u.pseudo === msg.auteur);
   const authorAvatar = authorUser ? authorUser.avatar : null;
   const avatarHTML = authorAvatar
